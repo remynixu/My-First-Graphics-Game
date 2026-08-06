@@ -2,21 +2,46 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "0. Clean Build",
             "type": "shell",
-            "label": "Compile Raylib Game",
-            "command": "C:\\raylib\\w64devkit\\bin\\gcc.exe",
+            "command": "powershell",
             "args": [
-                "-std=c99",
-                "${workspaceFolder}\\*.c",
-                "${workspaceFolder}\\game\\*.c",
-                "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe",
-                "-IC:\\raylib\\raylib\\src",
-                "-LC:\\raylib\\raylib\\src",
-                "-lraylib",
-                "-lopengl32",
-                "-lgdi32",
-                "-lwinmm"
+                "-Command",
+                "if (Test-Path 'build') { Remove-Item -Recurse -Force 'build'}"
+            ],
+            "presentation": {
+                "reveal": "silent",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "1. CMake Configure",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "-S", "${workspaceFolder}\\.",
+                "-B", "${workspaceFolder}\\build",
+                "-G", "MinGW Makefiles",
+                "-DCMAKE_MAKE_PROGRAM=C:\\raylib\\w64devkit\\bin\\make.exe",
+                "-DCMAKE_C_COMPILER=C:\\raylib\\w64devkit\\bin\\gcc.exe"
+            ],
+            "options": {
+                "env": {
+                    "PATH": "C:\\raylib\\w64devkit\\bin;${env:PATH}"
+                }
+            },
+            "dependsOn": [
+                "0. Clean Build"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "2. CMake Build",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build", "build"
             ],
             "options": {
                 "env": {
@@ -27,9 +52,11 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "problemMatcher": [
-                "$gcc"
-            ]
+            "dependsOn": [
+                "1. CMake Configure"
+            ],
+            "problemMatcher": ["$gcc"]
         }
     ]
 }
+

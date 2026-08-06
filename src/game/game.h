@@ -1,7 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "C:/raylib/w64devkit/include/raylib.h"
+#include <raylib.h>
 
 #ifndef GAME_TITLE
     #define GAME_TITLE  "Arundel"
