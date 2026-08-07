@@ -49,7 +49,7 @@
             "command": "powershell",
             "args": [
                 "-Command",
-                "Copy-Item -Path 'src\\asset' -Destination 'build_debug' -Recurse -Force"
+                "Copy-Item -Path 'src/assets' -Destination 'build_debug' -Recurse -Force"
             ],
             "dependsOn":[
                 "2. CMake Build (Debug)"
@@ -67,7 +67,7 @@
             "command": "powershell",
             "args": [
                 "-Command",
-                "if (Test-Path 'build_release') { Remove-Item -Recurse -Force 'build_release'}; if (Test-Path 'Arundel.zip' -PathType Leaf) { Remove-Item -Force 'Arundel.zip' }"
+                "if (Test-Path 'build_release') { Remove-Item -Recurse -Force 'build_release'}; if (Test-Path 'Arundel.zip' -PathType Leaf) { Remove-Item -Force 'Arundel.zip' }; if (Test-Path 'Arundel') { Remove-Item -Force 'Arundel'}"
             ],
             "presentation": {
                 "reveal": "silent",
@@ -86,7 +86,9 @@
                 "-DCMAKE_C_COMPILER=C:\\raylib\\w64devkit\\bin\\gcc.exe",
                 "-DCMAKE_BUILD_TYPE=release"
             ],
-            "dependsOn": ["0. Clean Build (Release)"]
+            "dependsOn": [
+                "0. Clean Build (Release)"
+            ]
         },
         {
             "label": "2. CMake Build (Release)",
@@ -105,9 +107,9 @@
             "command": "powershell",
             "args": [
                 "-Command",
-                "Copy-Item -Path 'src\\asset' -Destination 'build_release' -Recurse -Force"
+                "Copy-Item -Path 'src/assets' -Destination 'build_release' -Recurse -Force"
             ],
-            "dependsOn":[
+            "dependsOn": [
                 "2. CMake Build (Release)"
             ],
             "presentation": {
@@ -116,19 +118,43 @@
             }
         },
         {
+            "label": "2.2 Make ZIP's dir (Release)",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-Command",
+                "New-Item -Path 'Arundel' -ItemType Directory -Force"
+            ],
+            "dependsOn": [
+                "2.1 Copy Assets (Release)"
+            ]
+        },
+        {
+            "label": "2.3 Move To Dir (Release)",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-Command",
+                "Move-Item -Path 'build_release/Arundel.exe', 'build_release/assets' -Destination 'Arundel' -Force"
+            ],
+            "dependsOn": [
+                "2.2 Make ZIP's dir (Release)"
+            ]
+        },
+        {
             "label": "3. Package Playable Zip",
             "type": "shell",
             "command": "powershell",
             "args": [
                 "-Command",
-                "Compress-Archive -Path 'build_release/Arundel.exe','build_release/asset' -DestinationPath 'Arundel.zip' -Force"
+                "Compress-Archive -Path 'Arundel' -DestinationPath 'Arundel.zip' -Force"
             ],
             "group": {
                 "kind": "build",
                 "isDefault": true // Ctrl+Shift+B
             },
             "dependsOn": [
-                "2.1 Copy Assets (Release)"
+                "2.3 Move To Dir (Release)"
             ]
         }
     ]
