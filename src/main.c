@@ -16,13 +16,13 @@ int main(void){
     while(!WindowShouldClose()){
         update_gamestate(&game_state);
         if(game_state.heldkey_flags & KEYCODE_W)
-            map.camera.y -= 0.5f;
+            map.camera.y -= 0.5f * game_state.delta_time;
         if(game_state.heldkey_flags & KEYCODE_S)
-            map.camera.y += 0.5f;
+            map.camera.y += 0.5f * game_state.delta_time;
         if(game_state.heldkey_flags & KEYCODE_A)
-            map.camera.x -= 0.5f;
+            map.camera.x -= 0.5f * game_state.delta_time;
         if(game_state.heldkey_flags & KEYCODE_D)
-            map.camera.x += 0.5f;
+            map.camera.x += 0.5f * game_state.delta_time;
         BeginDrawing();
         {
             ClearBackground(DARKGRAY); 
