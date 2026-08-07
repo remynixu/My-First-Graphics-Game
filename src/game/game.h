@@ -36,7 +36,7 @@ enum heldkey_flags{
  /*
   * Uses game_state to initialize the game.
   */
-void game_init(struct game_state *gs);
+void init_game(struct game_state *gs);
 
 /*
  * Updates the game state's variables so they can be used by other systems.
@@ -46,6 +46,6 @@ void update_gamestate(struct game_state *gs);
 /*
  * Don't forget to call this before leaving.
  */
-void game_cleanup(void);
+void cleanup_game(void);
 
 #endif /* GAME_H */

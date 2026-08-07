@@ -1,11 +1,11 @@
 #include "game.h"
 
-void game_init(struct game_state *gs){
+void init_game(struct game_state *gs){
     InitWindow(gs->screen_width, gs->screen_height, GAME_TITLE);
     SetTargetFPS(gs->target_fps);
 }
 
-void game_cleanup(void){
+void cleanup_game(void){
     CloseWindow();
 }
 

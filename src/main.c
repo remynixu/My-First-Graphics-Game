@@ -1,25 +1,37 @@
 #include "game/game.h"
-#include "game/entity.h"
-
-void init(struct game_state *gs){
-    gs->screen_height = 450;
-    gs->screen_width = 800;
-    gs->target_fps = 60;
-    game_init(gs);
-}
+#include "game/map.h"
 
 int main(void){
     struct game_state game_state;
-    init(&game_state);
+    struct map map;
+    if(!ChangeDirectory(GetApplicationDirectory()))
+        return -1;
+    game_state.screen_height = 450;
+    game_state.screen_width = 800;
+    game_state.target_fps = 60;
+    init_game(&game_state);
+    /* TEST MAP */
+    if(init_map(&map, ftov(200, 200), ftov(0, 0), "assets/null_texture.png", 16.0f))
+        return -1;
     while(!WindowShouldClose()){
         update_gamestate(&game_state);
+        if(game_state.heldkey_flags & KEYCODE_W)
+            map.camera.y -= 0.5f;
+        if(game_state.heldkey_flags & KEYCODE_S)
+            map.camera.y += 0.5f;
+        if(game_state.heldkey_flags & KEYCODE_A)
+            map.camera.x -= 0.5f;
+        if(game_state.heldkey_flags & KEYCODE_D)
+            map.camera.x += 0.5f;
         BeginDrawing();
         {
             ClearBackground(DARKGRAY); 
+            draw_map(&map);
             DrawFPS(10, 10);
         }
         EndDrawing();
     }
-    game_cleanup();
+    cleanup_map(&map);
+    cleanup_game();
     return 0;
 }
