@@ -41,7 +41,23 @@
             ],
             "dependsOn": [
                 "1. CMake Configure (Debug)"
-            ] // F5
+            ]
+        },
+        {
+            "label": "2.1 Copy Assets (Debug)",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-Command",
+                "Copy-Item -Path 'src\\asset' -Destination 'build_debug' -Recurse -Force"
+            ],
+            "dependsOn":[
+                "2. CMake Build (Debug)"
+            ],
+            "presentation": {
+                "reveal": "silent",
+                "panel": "shared"
+            }
         },
 
         /* RELEASE */
@@ -84,18 +100,36 @@
             ]
         },
         {
+            "label": "2.1 Copy Assets (Release)",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-Command",
+                "Copy-Item -Path 'src\\asset' -Destination 'build_release' -Recurse -Force"
+            ],
+            "dependsOn":[
+                "2. CMake Build (Release)"
+            ],
+            "presentation": {
+                "reveal": "silent",
+                "panel": "shared"
+            }
+        },
+        {
             "label": "3. Package Playable Zip",
             "type": "shell",
             "command": "powershell",
             "args": [
                 "-Command",
-                "Compress-Archive -Path 'build_release/Arundel.exe' -DestinationPath 'Arundel.zip' -Force"
+                "Compress-Archive -Path 'build_release/Arundel.exe','build_release/asset' -DestinationPath 'Arundel.zip' -Force"
             ],
             "group": {
                 "kind": "build",
                 "isDefault": true // Ctrl+Shift+B
             },
-            "dependsOn": ["2. CMake Build (Release)"]
+            "dependsOn": [
+                "2.1 Copy Assets (Release)"
+            ]
         }
     ]
 }

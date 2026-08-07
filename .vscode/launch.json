@@ -13,7 +13,7 @@
             "externalConsole": false,
             "MIMode": "gdb",
             "miDebuggerPath": "C:\\raylib\\w64devkit\\bin\\gdb.exe",
-            "preLaunchTask": "2. CMake Build (Debug)"
+            "preLaunchTask": "2.1 Copy Assets (Debug)"
         }
     ]
 }
