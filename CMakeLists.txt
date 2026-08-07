@@ -2,14 +2,14 @@ cmake_minimum_required(VERSION 3.15)
 project(Arundel C)
 
 file(GLOB_RECURSE GAME_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c")
-add_executable(game ${GAME_SOURCES})
+add_executable(Arundel ${GAME_SOURCES})
 
-set_target_properties(game PROPERTIES
+set_target_properties(Arundel PROPERTIES
     C_STANDARD 90
     C_EXTENSIONS OFF
 )
 
-target_compile_options(game PRIVATE 
+target_compile_options(Arundel PRIVATE 
     -std=c89 
     -pedantic 
     -Werror 
@@ -18,9 +18,9 @@ target_compile_options(game PRIVATE
     -Wno-c++-compat
 )
 
-target_include_directories(game SYSTEM PRIVATE "C:/raylib/raylib/src")
+target_include_directories(Arundel SYSTEM PRIVATE "C:/raylib/raylib/src")
 
-target_link_libraries(game PRIVATE 
+target_link_libraries(Arundel PRIVATE 
     "C:/raylib/raylib/src/libraylib.a"
     opengl32 
     gdi32 

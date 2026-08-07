@@ -5,7 +5,7 @@
             "name": "Debug Raylib Game",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/game.exe",
+            "program": "${workspaceFolder}/build_debug/Arundel.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -13,7 +13,7 @@
             "externalConsole": false,
             "MIMode": "gdb",
             "miDebuggerPath": "C:\\raylib\\w64devkit\\bin\\gdb.exe",
-            "preLaunchTask": "2. CMake Build"
+            "preLaunchTask": "2. CMake Build (Debug)"
         }
     ]
 }
