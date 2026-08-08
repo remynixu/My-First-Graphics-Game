@@ -1,43 +1,40 @@
-#include "game/game.h"
-#include "game/map.h"
+#include "system/game.h"
+#include "system/tile.h"
 
-int main(void){
-    struct game_state game_state;
-    /* TEST MAP */
-    struct map map;
-    struct map_cam map_cam;
-    struct map_tex map_tex;
-    if(!ChangeDirectory(GetApplicationDirectory()))
-        return -1;
+struct game_state game_state;
+
+void init(void){
     game_state.screen_height = 450;
     game_state.screen_width = 800;
     game_state.target_fps = 60;
     init_game(&game_state);
-    /* TEST MAP */
-    map_cam.pos = ftov(0, 0);
-    map_cam.speed = 300;
-    map_tex.tex_scale = 16;
-    if(init_map(&map, ftov(0, 0), map_cam, "assets/null_texture.png", map_tex))
+}
+
+struct tile tile = {0};
+
+int main(void){
+    if(!ChangeDirectory(GetApplicationDirectory()))
+        return -1;
+    init();
+    /* TILE TEST */
+    tile.type = TILE_NULL;
+    tile.x = 16;
+    tile.y = 16;
+    if(load_tile(&tile) != 0)
         return -1;
     while(!WindowShouldClose()){
         update_gamestate(&game_state);
-        if(game_state.heldkey_flags & KEYCODE_W)
-            map.cam.pos.y -= map.cam.speed * game_state.delta_time;
-        if(game_state.heldkey_flags & KEYCODE_S)
-            map.cam.pos.y += map.cam.speed * game_state.delta_time;
-        if(game_state.heldkey_flags & KEYCODE_A)
-            map.cam.pos.x -= map.cam.speed * game_state.delta_time;
-        if(game_state.heldkey_flags & KEYCODE_D)
-            map.cam.pos.x += map.cam.speed * game_state.delta_time;
         BeginDrawing();
         {
             ClearBackground(DARKGRAY); 
-            draw_map(&map);
+            /* TILE TEST */
+            draw_tile(&tile);
             DrawFPS(10, 10);
         }
         EndDrawing();
     }
-    cleanup_map(&map);
+    /* TILE TEST */
+    free_tile(&tile);
     cleanup_game();
     return 0;
 }

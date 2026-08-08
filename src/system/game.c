@@ -1,6 +1,7 @@
 #include "game.h"
 
 void init_game(struct game_state *gs){
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(gs->screen_width, gs->screen_height, GAME_TITLE);
     SetTargetFPS(gs->target_fps);
 }
