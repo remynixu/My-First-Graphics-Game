@@ -4,26 +4,29 @@
 #include "game.h"
 
 enum tile_type{
-    TILE_NULL   = 0
+    TILE_NULL   = 0,
     /* Future tiles here. */
+    MAX_TILE_TYPE
 };
+
+#define TILE_PIXEL_WIDTH    32
+#define TILE_PIXEL_HEIGHT   32
 
 /*
  * A tile makes up a chunk of a map, it has a type and two integers about its
  * screen position.
  */
 struct tile{
-    Texture2D tex;
-    /* Only these must be initialized manually: */
     enum tile_type type;
     int x;
     int y;
 };
 
 /*
- * Load a tile to memory.
+ * Load the textures to be used by the library, currently an array of 32x32px
+ * PNGs.
  */
-int load_tile(struct tile *t);
+int load_tile_textures(void);
 
 /*
  * Draw a tile to the screen.
@@ -31,8 +34,8 @@ int load_tile(struct tile *t);
 void draw_tile(struct tile *t);
 
 /*
- * Free a tile before exiting program.
+ * Free the textures used by the library.
  */
-void free_tile(struct tile *t);
+void free_tile_textures(void);
 
 #endif /* TILE_H */

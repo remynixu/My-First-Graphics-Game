@@ -2,17 +2,28 @@
 
 static const char tex_pathlist[][32] = {
     "assets/null_texture.png",
-    "assets/lol.png"
+    "assets/doesnt_exist.png"
 };
 
-int load_tile(struct tile *t){
-    t->tex = LoadTexture(tex_pathlist[t->type]);
-    if(t->tex.width != 32 || t->tex.height != 32){
-        UnloadTexture(t->tex);
-        t->tex = LoadTexture(tex_pathlist[0]);
-        if(!IsTextureValid(t->tex))
+static Texture2D tex_list[MAX_TILE_TYPE] = {0};
+
+static int _load_tex(int i){
+    tex_list[i] = LoadTexture(tex_pathlist[i]);
+    if(tex_list[i].width != TILE_PIXEL_WIDTH || tex_list[i].height != TILE_PIXEL_HEIGHT){
+        UnloadTexture(tex_list[i]);
+        tex_list[i] = LoadTexture(tex_pathlist[0]);
+        if(!IsTextureValid(tex_list[i]))
             return -2;
         return -1;
+    }
+    return 0;
+}
+
+int load_tile_textures(void){
+    int i;
+    for(i = 0; i < MAX_TILE_TYPE; i++){
+        if(_load_tex(i) != 0)
+            return -1;
     }
     return 0;
 }
@@ -20,16 +31,22 @@ int load_tile(struct tile *t){
 void draw_tile(struct tile *t){
     Vector2 origin;
     Rectangle src, dst;
-    origin.x = 16.0f;
-    origin.y = 16.0f;
+    origin.x = (float)TILE_PIXEL_WIDTH / 2;
+    origin.y = (float)TILE_PIXEL_HEIGHT / 2;
     src.x = src.y = 0.0f;
-    src.height = dst.height = 32.0f;
-    src.width = dst.width = 32.0f;
+    src.height = dst.height = (float)TILE_PIXEL_HEIGHT;
+    src.width = dst.width = (float)TILE_PIXEL_WIDTH;
     dst.x = (float)t->x;
     dst.y = (float)t->y;
-    DrawTexturePro(t->tex, src, dst, origin, 0.0f, WHITE);
+    DrawTexturePro(tex_list[t->type], src, dst, origin, 0.0f, WHITE);
 }
 
-void free_tile(struct tile *t){
-    UnloadTexture(t->tex);
+static void _free_tile(int i){
+    UnloadTexture(tex_list[i]);
+}
+
+void free_tile_textures(void){
+    int i = 0;
+    for(i = 0; i < MAX_TILE_TYPE; i++)
+        _free_tile(i);
 }

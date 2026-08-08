@@ -1,7 +1,7 @@
 #include "system/game.h"
-#include "system/tile.h"
+#include "system/chunk.h"
 
-struct game_state game_state;
+struct game_state game_state = {0};
 
 void init(void){
     game_state.screen_height = 450;
@@ -10,31 +10,27 @@ void init(void){
     init_game(&game_state);
 }
 
-struct tile tile = {0};
+struct chunk chunk = {0};
 
 int main(void){
     if(!ChangeDirectory(GetApplicationDirectory()))
         return -1;
     init();
-    /* TILE TEST */
-    tile.type = TILE_NULL;
-    tile.x = 16;
-    tile.y = 16;
-    if(load_tile(&tile) != 0)
-        return -1;
+    if(load_tile_textures() != 0)
+        return -2;
+    if(parse_chunk("assets/chunks/test.chunk", &chunk) != 0)
+        return -3;
     while(!WindowShouldClose()){
         update_gamestate(&game_state);
         BeginDrawing();
         {
             ClearBackground(DARKGRAY); 
-            /* TILE TEST */
-            draw_tile(&tile);
+            draw_chunk(&chunk);
             DrawFPS(10, 10);
         }
         EndDrawing();
     }
-    /* TILE TEST */
-    free_tile(&tile);
+    free_tile_textures();
     cleanup_game();
     return 0;
 }
