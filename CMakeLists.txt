@@ -4,9 +4,9 @@ project(Arundel C)
 file(GLOB_RECURSE GAME_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c")
 add_executable(Arundel ${GAME_SOURCES})
 
-#if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
-#    set_property(TARGET Arundel PROPERTY WIN32_EXECUTABLE TRUE)
-#endif()
+if(NOT CMAKE_BUILD_TYPE STREQUAL "debug")
+    set_property(TARGET Arundel PROPERTY WIN32_EXECUTABLE TRUE)
+endif()
 
 set_target_properties(Arundel PROPERTIES
     C_STANDARD 90
