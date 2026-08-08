@@ -1,0 +1,49 @@
+# Arundel
+
+A dark, atmospheric top-down RPG in development.
+
+No heavy modern game engines. No bloated third-party frameworks. Just pure C code with its assets made from scratch.
+
+---
+
+## The Vision
+
+This project is a solo passion project. I am handling every single aspect of development:
+* **Code:** Hand-written in strict, vintage **ANSI C (C89)** using the raylib framework.
+* **Art:** Custom-drawn 32x32 retro pixel art sprites and tiles.
+
+---
+
+## How to Play
+
+### Controls
+* **Move:** W, A, S, D
+* **Quit:** Escape
+
+### System Requirements
+* **OS:** Windows, Mac, or Linux.
+* **RAM:** If your computer can turn on, it can run this game.
+* **GPU** OpenGL 2.1+
+
+---
+
+## For Developers (How to Build)
+
+If you want to look under the hood or compile the C89 source code yourself, you will need **raylib** installed on your system.
+If you have VS Code and CMake, you're in luck because that's what I'm also using! Just use my .vscode setup.
+
+### GCC / Clang (Strict C89 Mode)
+```bash
+gcc main.c -std=c89 -Wpedantic -lraylib -o dark_rpg
+```
+
+---
+
+## Current Status
+* [x] Map system (WIP)
+* [/] 32x32 Pixel Art Tiles & Assets (WIP)
+* [ ] Music & Audio Composition (Soon)
+
+---
+
+*Created with dedication by a solo developer. Thank you for... reading till the end of thie little README file :>*
