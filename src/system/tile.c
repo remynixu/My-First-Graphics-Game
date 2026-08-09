@@ -1,8 +1,8 @@
 #include "tile.h"
 
-static const char tex_pathlist[][32] = {
-    "assets/null_texture.png",
-    "assets/doesnt_exist.png"
+static const char tex_pathlist[MAX_TILE_TYPE][32] = {
+    "assets/textures/null.png",
+    "assets/textures/ground.png"
 };
 
 static Texture2D tex_list[MAX_TILE_TYPE] = {0};

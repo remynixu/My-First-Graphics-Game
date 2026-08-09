@@ -5,6 +5,7 @@
 
 enum tile_type{
     TILE_NULL   = 0,
+    TILE_GROUND,
     /* Future tiles here. */
     MAX_TILE_TYPE
 };
