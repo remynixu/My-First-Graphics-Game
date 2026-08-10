@@ -1,7 +1,7 @@
 #include "entity.h"
 
 static const char tex_pathlist[MAX_ENTITY_TYPE][32] = {
-    "assets/textures/null.png",
+    "assets/textures/null_entity.png",
     "assets/textures/arundel.png"
 };
 
@@ -33,15 +33,21 @@ void draw_entity(struct entity *e){
     Rectangle src, dst;
     float width = (float)tex_list[e->type].width;
     float height = (float)tex_list[e->type].height;
-    origin.x = (width * e->scale) / 2;
-    origin.y = (height * e->scale) / 2;
-    src.x = src.y = 0.0f;
-    src.height = height;
-    src.width = width;
-    dst.x = e->pos.x;
-    dst.y = e->pos.y;
-    dst.height = height * e->scale;
-    dst.width = width * e->scale;
+    {
+        origin.x = (width * e->scale) / 2;
+        origin.y = (height * e->scale) / 2;
+    }
+    {
+        src.x = src.y = 0.0f;
+        src.height = height;
+        src.width = width;
+    }
+    {
+        dst.x = e->pos.x;
+        dst.y = e->pos.y;
+        dst.height = height * e->scale;
+        dst.width = width * e->scale;
+    }
     DrawTexturePro(tex_list[e->type], src, dst, origin, 0.0f, WHITE);
 }
 

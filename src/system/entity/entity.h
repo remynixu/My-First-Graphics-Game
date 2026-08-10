@@ -1,7 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include "engine.h"
+#include <raylib.h>
 
 enum entity_type{
     ENTITY_NULL = 0,

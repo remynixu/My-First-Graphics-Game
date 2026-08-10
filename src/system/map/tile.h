@@ -1,11 +1,11 @@
 #ifndef TILE_H
 #define TILE_H
 
-#include "engine.h"
+#include <raylib.h>
 
 enum tile_type{
     TILE_NULL   = 0,
-    /* Future tiles here. */
+    TILE_STONE_WALL,
     MAX_TILE_TYPE
 };
 
