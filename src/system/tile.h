@@ -1,7 +1,7 @@
 #ifndef TILE_H
 #define TILE_H
 
-#include "game.h"
+#include "engine.h"
 
 enum tile_type{
     TILE_NULL   = 0,

@@ -1,16 +1,16 @@
-#include "system/game.h"
+#include "system/engine.h"
 #include "system/chunk.h"
 
-struct game_state game_state = {0};
+struct engine_ctx engine_ctx = {0};
 struct chunk chunk = {0};
 RenderTexture2D game_target = {0};
 
 void init(void){
-    game_state.screen_height = 450;
-    game_state.screen_width = 800;
-    game_state.target_fps = 60;
-    init_game(&game_state);
-    game_target = LoadRenderTexture(game_state.screen_width, game_state.screen_height);
+    engine_ctx.screen.height = 600;
+    engine_ctx.screen.width = 800;
+    engine_ctx.target_fps = 60;
+    start_engine(&engine_ctx, "Arundel's Adventure");
+    game_target = LoadRenderTexture(engine_ctx.screen.width, engine_ctx.screen.height);
 }
 
 int main(void){
@@ -26,20 +26,20 @@ int main(void){
         return -3;
     src_rec.width = (float)game_target.texture.width;
     src_rec.height = -(float)game_target.texture.height;
-    dest_rec.width = game_state.screen_width;
-    dest_rec.height = game_state.screen_height;
+    dest_rec.width = engine_ctx.screen.width;
+    dest_rec.height = engine_ctx.screen.height;
     cam.zoom = 1.0f;
     while(!WindowShouldClose()){
         float cam_move;
-        update_gamestate(&game_state);
-        cam_move = 400.0f * game_state.delta_time;
-        if(game_state.heldkey_flags & KEYCODE_W)
+        update_engine(&engine_ctx);
+        cam_move = 400.0f * engine_ctx.delta_time;
+        if(engine_ctx.heldkey_flags & KEYCODE_W)
             cam.target.y -= cam_move;
-        if(game_state.heldkey_flags & KEYCODE_S)
+        if(engine_ctx.heldkey_flags & KEYCODE_S)
             cam.target.y += cam_move;
-        if(game_state.heldkey_flags & KEYCODE_A)
+        if(engine_ctx.heldkey_flags & KEYCODE_A)
             cam.target.x -= cam_move;
-        if(game_state.heldkey_flags & KEYCODE_D)
+        if(engine_ctx.heldkey_flags & KEYCODE_D)
             cam.target.x += cam_move;
         BeginTextureMode(game_target);
         {
@@ -60,6 +60,6 @@ int main(void){
         EndDrawing();
     }
     free_tile_textures();
-    cleanup_game();
+    end_engine();
     return 0;
 }
