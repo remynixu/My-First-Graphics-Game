@@ -24,7 +24,7 @@ struct engine_ctx{
     unsigned char heldkey_flags;
 };
 
-void start_engine(struct engine_ctx *ctx, const char *title);
+void setup_engine(struct engine_ctx *ctx, const char *title);
 void update_engine(struct engine_ctx *ctx);
 void end_engine(void);
 

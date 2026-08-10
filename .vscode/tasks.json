@@ -28,7 +28,7 @@
                 "-DCMAKE_BUILD_TYPE=debug"
             ],
             "dependsOn": [
-                "0. Clean Build"
+                "0. Clean Build (Debug)"
             ],
             "problemMatcher": ["$gcc"]
         },
@@ -37,7 +37,7 @@
             "type": "shell",
             "command": "cmake",
             "args": [
-                "--build", "build_debug"
+                "--build", "build_debug", "-j2"
             ],
             "dependsOn": [
                 "1. CMake Configure (Debug)"
@@ -95,7 +95,7 @@
             "type": "shell",
             "command": "cmake",
             "args": [
-                "--build", "build_release"
+                "--build", "build_release", "-j2"
             ],
             "dependsOn": [
                 "1. CMake Configure (Release)"

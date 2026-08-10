@@ -1,6 +1,6 @@
 #include "engine.h"
 
-void start_engine(struct engine_ctx *ctx, const char *title){
+void setup_engine(struct engine_ctx *ctx, const char *title){
     InitWindow(ctx->screen.width, ctx->screen.height, title);
     SetTargetFPS(ctx->target_fps);
 }

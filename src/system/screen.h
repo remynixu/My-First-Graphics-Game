@@ -11,5 +11,6 @@ struct screen{
 
 void setup_screen(struct engine_ctx *ctx, struct screen *scr);
 void draw_screen(struct screen *scr);
+void end_screen(struct screen *scr);
 
 #endif /* SCREEN_H */

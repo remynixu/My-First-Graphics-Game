@@ -12,3 +12,7 @@ void draw_screen(struct screen *scr){
     Vector2 origin = {0};
     DrawTexturePro(scr->target.texture, scr->src, scr->dst, origin, 0.0f, WHITE);
 }
+
+void end_screen(struct screen *scr){
+    UnloadRenderTexture(scr->target);
+}
