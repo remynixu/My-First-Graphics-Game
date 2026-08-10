@@ -12,7 +12,7 @@ int main(void){
     Camera2D cam = {0};
     if(!ChangeDirectory(GetApplicationDirectory()))
         return -1;
-    {
+    { /* Engine contexts */
         engine_ctx.screen.height = 600;
         engine_ctx.screen.width = 800;
         engine_ctx.target_fps = 60;
@@ -27,38 +27,42 @@ int main(void){
         player.pos.x = engine_ctx.screen.width / 2;
         player.pos.y = engine_ctx.screen.height / 2;
         player.type = ENTITY_PLAYER;
-        player.scale = 2.0f;
+        player.scale = 1.0f;
+        player.speed = 100.0f;
     }
     if(parse_chunk("assets/chunks/test.chunk", &chunk) != 0)
         return -4;
-    { /* Camera set-up */
+    { /* Screen set-up */
         src_rec.width = (float)game_target.texture.width;
         src_rec.height = -(float)game_target.texture.height;
         dest_rec.width = engine_ctx.screen.width;
         dest_rec.height = engine_ctx.screen.height;
-        cam.zoom = 1.0f;
     }
+    cam.zoom = 4.0f;
     while(!WindowShouldClose()){
         float cam_move;
         update_engine(&engine_ctx);
-        cam_move = 400.0f * engine_ctx.delta_time;
+        cam_move = player.speed * engine_ctx.delta_time;
         if(engine_ctx.heldkey_flags & KEYCODE_W)
-            cam.target.y -= cam_move;
+            player.pos.y -= cam_move;
         if(engine_ctx.heldkey_flags & KEYCODE_S)
-            cam.target.y += cam_move;
+            player.pos.y += cam_move;
         if(engine_ctx.heldkey_flags & KEYCODE_A)
-            cam.target.x -= cam_move;
+            player.pos.x -= cam_move;
         if(engine_ctx.heldkey_flags & KEYCODE_D)
-            cam.target.x += cam_move;
+            player.pos.x += cam_move;
+        cam.offset.x = engine_ctx.screen.width / 2;
+        cam.offset.y = engine_ctx.screen.height / 2;
+        cam.target = player.pos;
         BeginTextureMode(game_target);
         {
             ClearBackground(DARKGRAY);
             BeginMode2D(cam);
             {
                 draw_chunk(&chunk);
+                draw_entity(&player);
             }
             EndMode2D();
-            draw_entity(&player);
         }
         EndTextureMode();
         BeginDrawing();

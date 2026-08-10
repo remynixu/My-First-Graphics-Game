@@ -5,13 +5,12 @@
 
 enum tile_type{
     TILE_NULL   = 0,
-    TILE_GROUND,
     /* Future tiles here. */
     MAX_TILE_TYPE
 };
 
-#define TILE_PIXEL_WIDTH    32
-#define TILE_PIXEL_HEIGHT   32
+#define TILE_PIXEL_WIDTH    16
+#define TILE_PIXEL_HEIGHT   16
 
 /*
  * A tile makes up a chunk of a map, it has a type and two integers about its

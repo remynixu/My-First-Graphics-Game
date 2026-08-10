@@ -1,15 +1,14 @@
 #include "tile.h"
 
 static const char tex_pathlist[MAX_TILE_TYPE][32] = {
-    "assets/textures/null.png",
-    "assets/textures/ground.png"
+    "assets/textures/null.png"
 };
 
 static Texture2D tex_list[MAX_TILE_TYPE] = {0};
 
 static int _load_tex(int i){
     tex_list[i] = LoadTexture(tex_pathlist[i]);
-    if(tex_list[i].width != TILE_PIXEL_WIDTH || tex_list[i].height != TILE_PIXEL_HEIGHT){
+    if(!IsTextureValid(tex_list[i])){
         UnloadTexture(tex_list[i]);
         tex_list[i] = LoadTexture(tex_pathlist[0]);
         if(!IsTextureValid(tex_list[i]))

@@ -13,6 +13,7 @@ struct entity{
     Vector2 pos;
     enum entity_type type;
     float scale;
+    float speed;
 };
 
 int load_entity_textures(void);
