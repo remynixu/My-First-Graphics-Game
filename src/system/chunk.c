@@ -22,8 +22,8 @@ int parse_chunk(const char *filename, struct chunk *chunk){
                 fclose(f);
                 return -4; /* incomplete/corrupt/invalid data */
             }
-            chunk->tiles[c][r].x = r * TILE_PIXEL_WIDTH + 32;
-            chunk->tiles[c][r].y = c * TILE_PIXEL_HEIGHT + 32;
+            chunk->tiles[c][r].x = r * TILE_PIXEL_WIDTH + (TILE_PIXEL_WIDTH / 2);
+            chunk->tiles[c][r].y = c * TILE_PIXEL_HEIGHT + (TILE_PIXEL_HEIGHT / 2);
             if(r < MAX_CHUNK_WIDTH - 1){
                 if(fgetc(f) != ':'){
                     fclose(f);
