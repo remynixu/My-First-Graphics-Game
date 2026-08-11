@@ -1,5 +1,14 @@
 #include "tile.h"
 
+Rectangle get_tile_hitbox(struct tile *t){
+    Rectangle hb;
+    hb.height = (float)TILE_PIXEL_HEIGHT;
+    hb.width = (float)TILE_PIXEL_WIDTH;
+    hb.x = (float)t->x;
+    hb.y = (float)t->y;
+    return hb;
+}
+
 static const char tex_pathlist[MAX_TILE_TYPE][32] = {
     "assets/textures/null.png",
     "assets/textures/stone_wall.png"
@@ -29,10 +38,8 @@ int load_tile_textures(void){
 }
 
 void draw_tile(struct tile *t){
-    Vector2 origin;
+    Vector2 origin = {0};
     Rectangle src, dst;
-    origin.x = (float)TILE_PIXEL_WIDTH / 2;
-    origin.y = (float)TILE_PIXEL_HEIGHT / 2;
     src.x = src.y = 0.0f;
     src.height = dst.height = (float)TILE_PIXEL_HEIGHT;
     src.width = dst.width = (float)TILE_PIXEL_WIDTH;

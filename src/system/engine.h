@@ -22,9 +22,10 @@ struct engine_ctx{
     int target_fps;
     float delta_time;
     unsigned char heldkey_flags;
+    struct chunk *curr_chunk;
 };
 
-void setup_engine(struct engine_ctx *ctx, const char *title);
+void start_engine(struct engine_ctx *ctx, const char *title);
 void update_engine(struct engine_ctx *ctx);
 void end_engine(void);
 

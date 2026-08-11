@@ -7,6 +7,29 @@ static const char tex_pathlist[MAX_ENTITY_TYPE][32] = {
 
 static Texture2D tex_list[MAX_ENTITY_TYPE] = {0};
 
+Rectangle get_entity_hitbox(struct entity *e){
+    Rectangle hb;
+    float width = (float)tex_list[e->type].width;
+    float height = (float)tex_list[e->type].height;
+    float org_x = (width * e->scale) / 2;
+    float org_y = (height * e->scale) / 2;
+    switch(e->type){
+        case ENTITY_PLAYER:{
+            width -= 8.0f;
+            height -= 8.0f;
+        }
+        break;
+        case ENTITY_NULL:
+        default:
+        break;
+    }
+    hb.x = e->pos.x - org_x;
+    hb.y = e->pos.y - org_y;
+    hb.height = height * e->scale;
+    hb.width = width * e->scale;
+    return hb;
+}
+
 static int _load_tex(int i){
     tex_list[i] = LoadTexture(tex_pathlist[i]);
     if(!IsTextureValid(tex_list[i])){
@@ -29,7 +52,7 @@ int load_entity_textures(void){
 }
 
 void draw_entity(struct entity *e){
-    Vector2 origin;
+    Vector2 origin = {0};
     Rectangle src, dst;
     float width = (float)tex_list[e->type].width;
     float height = (float)tex_list[e->type].height;

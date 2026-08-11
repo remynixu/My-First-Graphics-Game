@@ -4,6 +4,8 @@
 
 #include "system/map/chunk.h"
 
+#include <stdio.h>
+
 int main(void){
     struct engine_ctx engine_ctx = {0};
     struct chunk chunk = {0};
@@ -17,7 +19,7 @@ int main(void){
         engine_ctx.screen.width = 800;
         engine_ctx.target_fps = 60;
     }
-    setup_engine(&engine_ctx, "Arundel's Adventure");
+    start_engine(&engine_ctx, "Arundel's Adventure");
     if(load_tile_textures() != 0)
         return -2;
     if(load_entity_textures() != 0)
@@ -25,6 +27,7 @@ int main(void){
     setup_player(engine_ctx.screen.width / 2, engine_ctx.screen.height / 2, &player);
     if(parse_chunk("assets/chunks/test.chunk", &chunk) != 0)
         return -4;
+    engine_ctx.curr_chunk = &chunk;
     setup_screen(&engine_ctx, &screen);
     { /* Camera set-up */
         cam.offset.x = engine_ctx.screen.width / 2;
@@ -48,9 +51,12 @@ int main(void){
         EndTextureMode();
         BeginDrawing();
         {
+            char buf[32] = {0};
+            sprintf(buf, "X=%.2f,Y=%.2f", player.display.pos.x, player.display.pos.y);
             ClearBackground(BLACK); 
             draw_screen(&screen);
             DrawFPS(10, 10);
+            DrawText(buf, 10, 50, 20, DARKGREEN);
         }
         EndDrawing();
     }

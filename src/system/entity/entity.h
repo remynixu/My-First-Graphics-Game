@@ -15,6 +15,8 @@ struct entity{
     float scale;
 };
 
+Rectangle get_entity_hitbox(struct entity *e);
+
 int load_entity_textures(void);
 void draw_entity(struct entity *e);
 void free_entity_textures(void);
