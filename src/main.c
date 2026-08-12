@@ -46,6 +46,7 @@ int main(void){
             {
                 draw_chunk(&chunk);
                 draw_entity(&player);
+                DrawRectangleLinesEx(get_entity_hitbox(&player), (float)1, RED);
             }
             EndMode2D();
         }

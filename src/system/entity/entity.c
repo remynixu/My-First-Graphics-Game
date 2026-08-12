@@ -4,16 +4,34 @@ static struct{
     const char filepath[32];
     float scale;
     float speed;
+    struct{
+        float x;
+        float y;
+    }hitbox_offset;
+    struct{
+        float width;
+        float height;
+    }hitbox_sizemod;
 }_metadata_list[MAX_ENTITY_TYPE] = {
     {
         "assets/textures/null_entity.png",
         (float)1,
-        (float)100
+        (float)100,
+        {0},
+        {0}
     },
     {
         "assets/textures/arundel.png",
         (float)1,
-        (float)50
+        (float)50,
+        {
+            (float)-5,
+            (float)-10,
+        },
+        {
+            (float)-10,
+            (float)-10
+        }
     }
 };
 
@@ -31,6 +49,12 @@ Rectangle get_entity_hitbox(struct entity *e){
         hb.y = e->pos.y - org_y;
         hb.height = height;
         hb.width = width;
+    }
+    {
+        hb.x -= _metadata_list[i].hitbox_offset.x;
+        hb.y -= _metadata_list[i].hitbox_offset.y;
+        hb.width += _metadata_list[i].hitbox_sizemod.width;
+        hb.height += _metadata_list[i].hitbox_sizemod.height;
     }
     return hb;
 }
