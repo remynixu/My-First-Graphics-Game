@@ -1,41 +1,46 @@
 #include "entity.h"
 
-static const char tex_pathlist[MAX_ENTITY_TYPE][32] = {
-    "assets/textures/null_entity.png",
-    "assets/textures/arundel.png"
+static struct{
+    const char filepath[32];
+    float scale;
+    float speed;
+}_metadata_list[MAX_ENTITY_TYPE] = {
+    {
+        "assets/textures/null_entity.png",
+        (float)1,
+        (float)100
+    },
+    {
+        "assets/textures/arundel.png",
+        (float)1,
+        (float)50
+    }
 };
 
-static Texture2D tex_list[MAX_ENTITY_TYPE] = {0};
+static Texture2D _tex_arr[MAX_ENTITY_TYPE] = {0};
 
 Rectangle get_entity_hitbox(struct entity *e){
     Rectangle hb;
-    float width = (float)tex_list[e->type].width;
-    float height = (float)tex_list[e->type].height;
-    float org_x = (width * e->scale) / 2;
-    float org_y = (height * e->scale) / 2;
-    switch(e->type){
-        case ENTITY_PLAYER:{
-            width -= 8.0f;
-            height -= 8.0f;
-        }
-        break;
-        case ENTITY_NULL:
-        default:
-        break;
+    int i = e->type;
+    float width = _tex_arr[i].width * _metadata_list[i].scale;
+    float height = _tex_arr[i].height * _metadata_list[i].scale;
+    float org_x = width / 2;
+    float org_y = height / 2;
+    {
+        hb.x = e->pos.x - org_x;
+        hb.y = e->pos.y - org_y;
+        hb.height = height;
+        hb.width = width;
     }
-    hb.x = e->pos.x - org_x;
-    hb.y = e->pos.y - org_y;
-    hb.height = height * e->scale;
-    hb.width = width * e->scale;
     return hb;
 }
 
 static int _load_tex(int i){
-    tex_list[i] = LoadTexture(tex_pathlist[i]);
-    if(!IsTextureValid(tex_list[i])){
-        UnloadTexture(tex_list[i]);
-        tex_list[i] = LoadTexture(tex_pathlist[0]);
-        if(!IsTextureValid(tex_list[i]))
+    _tex_arr[i] = LoadTexture(_metadata_list[i].filepath);
+    if(!IsTextureValid(_tex_arr[i])){
+        UnloadTexture(_tex_arr[i]);
+        _tex_arr[i] = LoadTexture(_metadata_list[0].filepath);
+        if(!IsTextureValid(_tex_arr[i]))
             return -2;
         return -1;
     }
@@ -51,14 +56,22 @@ int load_entity_textures(void){
     return 0;
 }
 
+void setup_entity(int x, int y, enum entity_type type, struct entity *e){
+        e->pos.x = (float)x;
+        e->pos.y = (float)y;
+        e->type = type;
+        e->speed = _metadata_list[type].speed;
+}
+
 void draw_entity(struct entity *e){
     Vector2 origin = {0};
     Rectangle src, dst;
-    float width = (float)tex_list[e->type].width;
-    float height = (float)tex_list[e->type].height;
+    int i = e->type;
+    float width = _tex_arr[i].width;
+    float height = _tex_arr[i].height;
     {
-        origin.x = (width * e->scale) / 2;
-        origin.y = (height * e->scale) / 2;
+        origin.x = (width * _metadata_list[i].scale) / 2;
+        origin.y = (height * _metadata_list[i].scale) / 2;
     }
     {
         src.x = src.y = 0.0f;
@@ -68,14 +81,14 @@ void draw_entity(struct entity *e){
     {
         dst.x = e->pos.x;
         dst.y = e->pos.y;
-        dst.height = height * e->scale;
-        dst.width = width * e->scale;
+        dst.height = height * _metadata_list[i].scale;
+        dst.width = width * _metadata_list[i].scale;
     }
-    DrawTexturePro(tex_list[e->type], src, dst, origin, 0.0f, WHITE);
+    DrawTexturePro(_tex_arr[i], src, dst, origin, 0.0f, WHITE);
 }
 
 static void _free_tile(int i){
-    UnloadTexture(tex_list[i]);
+    UnloadTexture(_tex_arr[i]);
 }
 
 void free_entity_textures(void){

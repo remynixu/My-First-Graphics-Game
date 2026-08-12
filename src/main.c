@@ -1,15 +1,16 @@
-#include "system/engine.h"
-#include "system/screen.h"
-#include "system/player.h"
+#include "system/engine/engine.h"
+#include "system/engine/screen.h"
+#include "system/entity/entity.h"
 
 #include "system/map/chunk.h"
+#include "system/control.h"
 
 #include <stdio.h>
 
 int main(void){
     struct engine_ctx engine_ctx = {0};
     struct chunk chunk = {0};
-    struct player player = {0};
+    struct entity player = {0};
     struct screen screen = {0};
     Camera2D cam = {0};
     if(!ChangeDirectory(GetApplicationDirectory()))
@@ -24,7 +25,7 @@ int main(void){
         return -2;
     if(load_entity_textures() != 0)
         return -3;
-    setup_player(engine_ctx.screen.width / 2, engine_ctx.screen.height / 2, &player);
+    setup_entity(engine_ctx.screen.width / 2, engine_ctx.screen.height / 2, ENTITY_PLAYER, &player);
     if(parse_chunk("assets/chunks/test.chunk", &chunk) != 0)
         return -4;
     engine_ctx.curr_chunk = &chunk;
@@ -36,15 +37,15 @@ int main(void){
     }
     while(!WindowShouldClose()){
         update_engine(&engine_ctx);
-        update_player(&engine_ctx, &player);
-        cam.target = player.display.pos;
+        control_entity(&engine_ctx, &player);
+        cam.target = player.pos;
         BeginTextureMode(screen.target);
         {
             ClearBackground(DARKGRAY);
             BeginMode2D(cam);
             {
                 draw_chunk(&chunk);
-                draw_entity(&player.display);
+                draw_entity(&player);
             }
             EndMode2D();
         }
@@ -52,7 +53,7 @@ int main(void){
         BeginDrawing();
         {
             char buf[32] = {0};
-            sprintf(buf, "X=%.2f,Y=%.2f", player.display.pos.x, player.display.pos.y);
+            sprintf(buf, "X=%.2f,Y=%.2f", player.pos.x, player.pos.y);
             ClearBackground(BLACK); 
             draw_screen(&screen);
             DrawFPS(10, 10);
