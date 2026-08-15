@@ -2,7 +2,7 @@
 #define CONTROL_H
 
 #include "engine/engine.h"
-#include "entity/entity.h"
+#include "map/entity.h"
 
 void control_entity(struct engine_ctx *ctx, struct entity *e);
 

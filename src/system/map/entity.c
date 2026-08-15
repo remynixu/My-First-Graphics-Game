@@ -1,16 +1,16 @@
 #include "entity.h"
 
-static struct{
+const static struct{
     const char filepath[32];
     float scale;
     float speed;
     struct{
-        float x;
-        float y;
+        float x;    /* +1 = left    */
+        float y;    /* +1 = up      */
     }hitbox_offset;
     struct{
-        float width;
-        float height;
+        float width;    /* +1 = right   */
+        float height;   /* +1 = down    */
     }hitbox_sizemod;
 }_metadata_list[MAX_ENTITY_TYPE] = {
     {
@@ -25,12 +25,12 @@ static struct{
         (float)1,
         (float)50,
         {
-            (float)-5,
-            (float)-10,
+            (float)-7.5f,
+            (float)-7
         },
         {
-            (float)-10,
-            (float)-10
+            (float)-14,
+            (float)-8
         }
     }
 };
@@ -119,4 +119,23 @@ void free_entity_textures(void){
     int i = 0;
     for(i = 0; i < MAX_ENTITY_TYPE; i++)
         _free_tile(i);
+}
+
+static void _sort(struct entity *e){
+    int i;
+    int j;
+    struct entity target;
+    for(i = 1; i < MAX_ENTITY_COUNT; i++){
+        target = e[i];
+        for(j = i - 1; j > -1 && e[i].pos.y > target.pos.y; j--)
+            e[j + 1] = e[j];
+        e[j + 1] = target;
+    }
+}
+
+void draw_entities(struct entity *list){
+    int i;
+    _sort(list);
+    for(i = 0; i < MAX_ENTITY_COUNT; i++)
+        draw_entity(&list[i]);
 }

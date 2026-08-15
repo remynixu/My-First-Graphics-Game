@@ -18,21 +18,18 @@ static Texture2D tex_list[MAX_TILE_TYPE] = {0};
 
 static int _load_tex(int i){
     tex_list[i] = LoadTexture(tex_pathlist[i]);
-    if(!IsTextureValid(tex_list[i])){
-        UnloadTexture(tex_list[i]);
-        tex_list[i] = LoadTexture(tex_pathlist[0]);
-        if(!IsTextureValid(tex_list[i]))
-            return -2;
+    if(!IsTextureValid(tex_list[i]))
         return -1;
-    }
     return 0;
 }
 
 int load_tile_textures(void){
     int i;
+    int errcode;
     for(i = 0; i < MAX_TILE_TYPE; i++){
-        if(_load_tex(i) != 0)
-            return -1;
+        errcode =_load_tex(i);
+        if(errcode == -1)
+            return -(i + 1);
     }
     return 0;
 }

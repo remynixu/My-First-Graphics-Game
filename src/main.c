@@ -1,11 +1,9 @@
 #include "system/engine/engine.h"
 #include "system/engine/screen.h"
-#include "system/entity/entity.h"
+#include "system/map/entity.h"
 
 #include "system/map/chunk.h"
 #include "system/control.h"
-
-#include <stdio.h>
 
 int main(void){
     struct engine_ctx engine_ctx = {0};
@@ -46,19 +44,15 @@ int main(void){
             {
                 draw_chunk(&chunk);
                 draw_entity(&player);
-                DrawRectangleLinesEx(get_entity_hitbox(&player), (float)1, RED);
             }
             EndMode2D();
         }
         EndTextureMode();
         BeginDrawing();
         {
-            char buf[32] = {0};
-            sprintf(buf, "X=%.2f,Y=%.2f", player.pos.x, player.pos.y);
             ClearBackground(BLACK); 
             draw_screen(&screen);
             DrawFPS(10, 10);
-            DrawText(buf, 10, 50, 20, DARKGREEN);
         }
         EndDrawing();
     }

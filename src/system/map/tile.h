@@ -10,7 +10,7 @@ enum tile_type{
 };
 
 #define TILE_PIXEL_WIDTH    16
-#define TILE_PIXEL_HEIGHT   16
+#define TILE_PIXEL_HEIGHT   12
 
 struct tile{
     enum tile_type type;
@@ -20,7 +20,14 @@ struct tile{
 
 Rectangle get_tile_hitbox(struct tile *t);
 
+/*
+ * RETURN VALUES
+ * -1 -> -x = Index of failed texture.
+ * 1 = Fallback texture fail.
+ */
+
 int load_tile_textures(void);
+
 void draw_tile(struct tile *t);
 void free_tile_textures(void);
 

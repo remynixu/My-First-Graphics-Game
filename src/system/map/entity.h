@@ -30,4 +30,8 @@ void setup_entity(int x, int y, enum entity_type type, struct entity *e);
 void draw_entity(struct entity *e);
 void free_entity_textures(void);
 
+#define MAX_ENTITY_COUNT    32
+
+void draw_entities(struct entity *list);
+
 #endif /* ENTITY_H */
