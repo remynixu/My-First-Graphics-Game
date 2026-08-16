@@ -63,11 +63,9 @@ static int _load_tex(const int i){
     _tex_arr[i] = LoadTexture(_metadata_list[i].filepath);
     if(!IsTextureValid(_tex_arr[i])){
         UnloadTexture(_tex_arr[i]);
-        _tex_arr[i] = LoadTexture(_metadata_list[0].filepath);
-        if(!IsTextureValid(_tex_arr[i]))
-            return -2;
         return -1;
     }
+    SetTextureFilter(_tex_arr[i], TEXTURE_FILTER_POINT);
     return 0;
 }
 

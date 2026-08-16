@@ -8,7 +8,7 @@
 int main(void){
     struct engine_ctx engine_ctx = {0};
     struct chunk chunk = {0};
-    struct entity player = {0};
+    struct entity list[MAX_ENTITY_COUNT] = {0};
     struct screen screen = {0};
     Camera2D cam = {0};
     if(!ChangeDirectory(GetApplicationDirectory()))
@@ -23,7 +23,10 @@ int main(void){
         return -2;
     if(load_entity_textures() != 0)
         return -3;
-    setup_entity(engine_ctx.screen.width / 2, engine_ctx.screen.height / 2, ENTITY_PLAYER, &player);
+    {
+        setup_entity(engine_ctx.screen.width / 2, engine_ctx.screen.height / 2, ENTITY_PLAYER, &list[0]);
+        setup_entity(engine_ctx.screen.width / 2 + 10, engine_ctx.screen.height / 2 + 10, ENTITY_PLAYER, &list[1]);
+    }
     if(parse_chunk("assets/data/chunk/test.chunk", &chunk) != 0)
         return -4;
     engine_ctx.curr_chunk = &chunk;
@@ -35,15 +38,15 @@ int main(void){
     }
     while(!WindowShouldClose()){
         update_engine(&engine_ctx);
-        control_entity(&engine_ctx, &player);
-        cam.target = player.pos;
+        control_entity(&engine_ctx, &list[0]);
+        cam.target = list[0].pos;
         BeginTextureMode(screen.target);
         {
             ClearBackground(DARKGRAY);
             BeginMode2D(cam);
             {
                 draw_chunk(&chunk);
-                draw_entity(&player);
+                draw_entities(list);
             }
             EndMode2D();
         }

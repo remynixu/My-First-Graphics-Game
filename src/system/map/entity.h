@@ -58,6 +58,8 @@ void free_entity_textures(void);
 /*
  * The list passed on this function is NOT guaranteed to be unaltered after
  * call.
+ * 
+ * Oh, also... don't you dare pass a list that ISN'T as big as MAX_ENTITY_COUNT!
  */
 
 void draw_entities(struct entity *const list);

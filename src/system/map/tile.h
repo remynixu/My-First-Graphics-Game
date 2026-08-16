@@ -3,9 +3,17 @@
 
 #include <raylib.h>
 
+/*
+ * Adding a new tiles means you have to update:
+ * - tile.h
+ * - collision.h
+ * - tile/
+ */
+
 enum tile_type{
     TILE_NULL   = 0,
-    TILE_STONE_WALL,
+    TILE_STONE,
+    TILE_WATER,
     MAX_TILE_TYPE
 };
 

@@ -9,17 +9,21 @@ Rectangle get_tile_hitbox(const struct tile *const t){
     return hb;
 }
 
-static const char tex_pathlist[MAX_TILE_TYPE][32] = {
+static const char tex_pathlist[MAX_TILE_TYPE][64] = {
     "assets/textures/tile/null.png",
-    "assets/textures/tile/stone.png"
+    "assets/textures/tile/stone.png",
+    "assets/textures/tile/placeholder.png"
 };
 
 static Texture2D tex_list[MAX_TILE_TYPE] = {0};
 
 static int _load_tex(const int i){
     tex_list[i] = LoadTexture(tex_pathlist[i]);
-    if(!IsTextureValid(tex_list[i]))
+    if(!IsTextureValid(tex_list[i])){
+        UnloadTexture(tex_list[i]);
         return -1;
+    }
+    SetTextureFilter(tex_list[i], TEXTURE_FILTER_POINT);
     return 0;
 }
 
