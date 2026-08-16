@@ -125,21 +125,24 @@ static void _sort(struct entity *const e){
     struct entity target;
     for(i = 1; i < MAX_ENTITY_COUNT; i++){
         target = e[i];
-        for(j = i - 1; j > -1 && e[i].pos.y > target.pos.y; j--)
+        for(j = i - 1; j > -1 && e[j].pos.y > target.pos.y; j--)
             e[j + 1] = e[j];
         e[j + 1] = target;
     }
 }
 
-void draw_entities(struct entity *const list){
+#include <string.h>
+
+void draw_entities(const struct entity *const list){
     int i;
-    _sort(list);
+    struct entity el[MAX_ENTITY_COUNT];
+    memcpy(el, list, sizeof(*el) * MAX_ENTITY_COUNT);
+    _sort(el);
     for(i = 0; i < MAX_ENTITY_COUNT; i++)
-        draw_entity(&list[i]);
+        draw_entity(&el[i]);
 }
 
 #include <stdio.h>
-#include <string.h>
 #include "chunk.h"
 
 int parse_spawntable(const char *filename, struct entity *const list){

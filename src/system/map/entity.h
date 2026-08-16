@@ -62,7 +62,7 @@ void free_entity_textures(void);
  * Oh, also... don't you dare pass a list that ISN'T as big as MAX_ENTITY_COUNT!
  */
 
-void draw_entities(struct entity *const list);
+void draw_entities(const struct entity *const list);
 
 /*
  * This function depends on chunk.h as it shares a common design with its file
