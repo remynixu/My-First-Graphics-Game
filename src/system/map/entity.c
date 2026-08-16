@@ -25,11 +25,11 @@ const static struct{
         (float)1,
         (float)50,
         {
-            (float)-7.5f,
+            (float)-9.5f,
             (float)-7
         },
         {
-            (float)-14,
+            (float)-18,
             (float)-8
         }
     }

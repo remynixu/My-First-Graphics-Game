@@ -5,6 +5,10 @@
 
 enum entity_type{
     ENTITY_NULL = 0,
+/*
+ * - From collision.h
+ * Past this point, the entities are collidable.
+ */
     ENTITY_PLAYER,
     MAX_ENTITY_TYPE
 };

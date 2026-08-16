@@ -7,11 +7,15 @@ static void _move_ent(struct engine_ctx *ctx, struct entity *e){
         e->pos.y += (float)e->speed * ctx->delta_time;
         if(check_etoc_collision(e, ctx->curr_chunk))
             e->pos.y -= (float)e->speed * ctx->delta_time;
+        if(check_etoe_collision(e, ctx->entity_list))
+            e->pos.y -= (float)e->speed * ctx->delta_time;
     }
     if(ctx->heldkey_flags & KEYCODE_W){
         e->direction = ENTITY_DOWN;
         e->pos.y -= (float)e->speed * ctx->delta_time;
         if(check_etoc_collision(e, ctx->curr_chunk))
+            e->pos.y += (float)e->speed * ctx->delta_time;
+        if(check_etoe_collision(e, ctx->entity_list))
             e->pos.y += (float)e->speed * ctx->delta_time;
     }
     if(ctx->heldkey_flags & KEYCODE_A){
@@ -19,11 +23,15 @@ static void _move_ent(struct engine_ctx *ctx, struct entity *e){
         e->pos.x -= (float)e->speed * ctx->delta_time;
         if(check_etoc_collision(e, ctx->curr_chunk))
             e->pos.x += (float)e->speed * ctx->delta_time;
+        if(check_etoe_collision(e, ctx->entity_list))
+            e->pos.x += (float)e->speed * ctx->delta_time;
     }
     if(ctx->heldkey_flags & KEYCODE_D){
         e->direction = ENTITY_RIGHT;
         e->pos.x += (float)e->speed * ctx->delta_time;
         if(check_etoc_collision(e, ctx->curr_chunk))
+            e->pos.x -= (float)e->speed * ctx->delta_time;
+        if(check_etoe_collision(e, ctx->entity_list))
             e->pos.x -= (float)e->speed * ctx->delta_time;
     }
 }

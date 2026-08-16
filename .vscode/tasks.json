@@ -29,8 +29,7 @@
             ],
             "dependsOn": [
                 "0. Clean Build (Debug)"
-            ],
-            "problemMatcher": ["$gcc"]
+            ]
         },
         {
             "label": "2. CMake Build (Debug)",

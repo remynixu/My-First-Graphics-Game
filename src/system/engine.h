@@ -2,6 +2,8 @@
 #define ENGINE_H
 
 #include <raylib.h>
+#include "map/chunk.h"
+#include "map/entity.h"
 
 enum heldkey_flags{
     KEYCODE_W = (1 << 0),
@@ -23,6 +25,7 @@ struct engine_ctx{
     float delta_time;
     unsigned char heldkey_flags;
     struct chunk *curr_chunk;
+    struct entity *entity_list;
 };
 
 void start_engine(struct engine_ctx *ctx, const char *title);

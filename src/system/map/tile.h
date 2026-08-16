@@ -13,6 +13,10 @@
 enum tile_type{
     TILE_NULL   = 0,
     TILE_STONE,
+/*
+ * - From collision.h
+ * Past this point, the tiles are collidable.
+ */
     TILE_WATER,
     MAX_TILE_TYPE
 };
