@@ -3,17 +3,17 @@
 #include <stdio.h>
 #include <string.h>
 
-int parse_chunk(const char *filename, struct chunk *chunk){
+int parse_chunk(const char *const filename, struct chunk *const chunk){
     FILE *f = fopen(filename, "r");
-    char magic[8] = {0};
+    char magic[6] = {0};
     int r, c;
     if(!f)
         return -1; /* file may not exist */
-    if(fscanf(f, "%7s", magic) != 1){
+    if(fscanf(f, "%5s", magic) != 1){
         fclose(f);
         return -2; /* unreadable header */
     }
-    if(strcmp(magic, "ARUNDEL") != 0){
+    if(strcmp(magic, "CHUNK") != 0){
         return -3; /* invalid header */
     }
     for(c = 0; c < MAX_CHUNK_HEIGHT; c++){
@@ -36,7 +36,7 @@ int parse_chunk(const char *filename, struct chunk *chunk){
     return 0;
 }
 
-void draw_chunk(struct chunk *chunk){
+void draw_chunk(const struct chunk *const chunk){
     int c, r;
     for(c = 0; c < MAX_CHUNK_HEIGHT; c++){
         for(r = 0; r < MAX_CHUNK_WIDTH; r++)

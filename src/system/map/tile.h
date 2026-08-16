@@ -18,7 +18,7 @@ struct tile{
     int y;
 };
 
-Rectangle get_tile_hitbox(struct tile *t);
+Rectangle get_tile_hitbox(const struct tile *const t);
 
 /*
  * RETURN VALUES
@@ -28,7 +28,7 @@ Rectangle get_tile_hitbox(struct tile *t);
 
 int load_tile_textures(void);
 
-void draw_tile(struct tile *t);
+void draw_tile(const struct tile *const t);
 void free_tile_textures(void);
 
 #endif /* TILE_H */

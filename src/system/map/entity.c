@@ -1,7 +1,7 @@
 #include "entity.h"
 
 const static struct{
-    const char filepath[32];
+    char filepath[64];
     float scale;
     float speed;
     struct{
@@ -14,14 +14,14 @@ const static struct{
     }hitbox_sizemod;
 }_metadata_list[MAX_ENTITY_TYPE] = {
     {
-        "assets/textures/null_entity.png",
+        "assets/textures/entity/null.png",
         (float)1,
         (float)100,
         {0},
         {0}
     },
     {
-        "assets/textures/arundel.png",
+        "assets/textures/entity/arundel.png",
         (float)1,
         (float)50,
         {
@@ -37,7 +37,7 @@ const static struct{
 
 static Texture2D _tex_arr[MAX_ENTITY_TYPE] = {0};
 
-Rectangle get_entity_hitbox(struct entity *e){
+Rectangle get_entity_hitbox(const struct entity *const e){
     Rectangle hb;
     int i = e->type;
     float width = _tex_arr[i].width * _metadata_list[i].scale;
@@ -59,7 +59,7 @@ Rectangle get_entity_hitbox(struct entity *e){
     return hb;
 }
 
-static int _load_tex(int i){
+static int _load_tex(const int i){
     _tex_arr[i] = LoadTexture(_metadata_list[i].filepath);
     if(!IsTextureValid(_tex_arr[i])){
         UnloadTexture(_tex_arr[i]);
@@ -80,14 +80,14 @@ int load_entity_textures(void){
     return 0;
 }
 
-void setup_entity(int x, int y, enum entity_type type, struct entity *e){
+void setup_entity(const int x, const int y, const enum entity_type type, struct entity *const e){
         e->pos.x = (float)x;
         e->pos.y = (float)y;
         e->type = type;
         e->speed = _metadata_list[type].speed;
 }
 
-void draw_entity(struct entity *e){
+void draw_entity(const struct entity *const e){
     Vector2 origin = {0};
     Rectangle src, dst;
     int i = e->type;
@@ -111,7 +111,7 @@ void draw_entity(struct entity *e){
     DrawTexturePro(_tex_arr[i], src, dst, origin, 0.0f, WHITE);
 }
 
-static void _free_tile(int i){
+static void _free_tile(const int i){
     UnloadTexture(_tex_arr[i]);
 }
 
@@ -121,7 +121,7 @@ void free_entity_textures(void){
         _free_tile(i);
 }
 
-static void _sort(struct entity *e){
+static void _sort(struct entity *const e){
     int i;
     int j;
     struct entity target;
@@ -133,9 +133,47 @@ static void _sort(struct entity *e){
     }
 }
 
-void draw_entities(struct entity *list){
+void draw_entities(struct entity *const list){
     int i;
     _sort(list);
     for(i = 0; i < MAX_ENTITY_COUNT; i++)
         draw_entity(&list[i]);
+}
+
+#include <stdio.h>
+#include <string.h>
+#include "chunk.h"
+
+int parse_spawntable(const char *filename, struct entity *const list){
+    FILE *f = fopen(filename, "r");
+    char magic[12] = {0};
+    int r, c;
+    if(!f)
+        return -1; /* file may not exist */
+    if(fscanf(f, "%11s", magic) != 1){
+        fclose(f);
+        return -2; /* unreadable header */
+    }
+    if(strcmp(magic, "SPAWNTABLE") != 0){
+        return -3; /* invalid header */
+    }
+    for(c = 0; c < MAX_CHUNK_HEIGHT; c++){
+        for(r = 0; r < MAX_CHUNK_WIDTH; r++){
+            int i = (c * MAX_CHUNK_WIDTH) + r;
+            if(fscanf(f, "%u", &list[i].type) != 1){
+                fclose(f);
+                return -4; /* incomplete/corrupt/invalid data */
+            }
+            list[i].pos.x = r * TILE_PIXEL_WIDTH;
+            list[i].pos.y = c * TILE_PIXEL_HEIGHT;
+            if(r < MAX_CHUNK_WIDTH - 1){
+                if(fgetc(f) != ':'){
+                    fclose(f);
+                    return -5; /* missing colon separator */
+                }
+            }
+        }
+        fgetc(f); /* skip trailing newline */
+    }
+    return 0;
 }

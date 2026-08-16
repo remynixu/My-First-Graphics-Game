@@ -1,6 +1,6 @@
 #include "tile.h"
 
-Rectangle get_tile_hitbox(struct tile *t){
+Rectangle get_tile_hitbox(const struct tile *const t){
     Rectangle hb;
     hb.height = (float)TILE_PIXEL_HEIGHT;
     hb.width = (float)TILE_PIXEL_WIDTH;
@@ -10,13 +10,13 @@ Rectangle get_tile_hitbox(struct tile *t){
 }
 
 static const char tex_pathlist[MAX_TILE_TYPE][32] = {
-    "assets/textures/null.png",
-    "assets/textures/stone_wall.png"
+    "assets/textures/tile/null.png",
+    "assets/textures/tile/stone.png"
 };
 
 static Texture2D tex_list[MAX_TILE_TYPE] = {0};
 
-static int _load_tex(int i){
+static int _load_tex(const int i){
     tex_list[i] = LoadTexture(tex_pathlist[i]);
     if(!IsTextureValid(tex_list[i]))
         return -1;
@@ -34,7 +34,7 @@ int load_tile_textures(void){
     return 0;
 }
 
-void draw_tile(struct tile *t){
+void draw_tile(const struct tile *const t){
     Vector2 origin = {0};
     Rectangle src, dst;
     src.x = src.y = 0.0f;
@@ -45,7 +45,7 @@ void draw_tile(struct tile *t){
     DrawTexturePro(tex_list[t->type], src, dst, origin, 0.0f, WHITE);
 }
 
-static void _free_tile(int i){
+static void _free_tile(const int i){
     UnloadTexture(tex_list[i]);
 }
 

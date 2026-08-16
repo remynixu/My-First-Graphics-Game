@@ -10,7 +10,24 @@ struct chunk{
     struct tile tiles[MAX_CHUNK_HEIGHT][MAX_CHUNK_WIDTH];
 };
 
-int parse_chunk(const char *filename, struct chunk *chunk);
-void draw_chunk(struct chunk *chunk);
+/*
+ * Return Values:
+ *  0 = Success!
+ * -1 = File doesn't exist.
+ * -2 = Unreadable header. 
+ * -3 = Invalid header.
+ * -4 = Incomplete data.
+ * -5 = Missing colon separator.
+ */
+
+int parse_chunk(const char *const filename, struct chunk *const chunk);
+
+/*
+ * Draws an array of array of tiles...
+ *
+ * ._.
+ */
+
+void draw_chunk(const struct chunk *const chunk);
 
 #endif /* CHUNK_H */

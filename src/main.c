@@ -18,13 +18,13 @@ int main(void){
         engine_ctx.screen.width = 800;
         engine_ctx.target_fps = 60;
     }
-    start_engine(&engine_ctx, "Arundel's Adventure");
+    start_engine(&engine_ctx, "A Little Witch's Little Forest");
     if(load_tile_textures() != 0)
         return -2;
     if(load_entity_textures() != 0)
         return -3;
     setup_entity(engine_ctx.screen.width / 2, engine_ctx.screen.height / 2, ENTITY_PLAYER, &player);
-    if(parse_chunk("assets/chunks/test.chunk", &chunk) != 0)
+    if(parse_chunk("assets/data/chunk/test.chunk", &chunk) != 0)
         return -4;
     engine_ctx.curr_chunk = &chunk;
     setup_screen(&engine_ctx, &screen);
