@@ -20,10 +20,6 @@ int check_etoc_collision(struct entity *e, struct chunk *chunk){
 int check_etoe_collision(struct entity *e, struct entity *list){
     Rectangle hb = get_entity_hitbox(e);
     int i;
-    {
-        hb.y += hb.height - hb.height / 2.0f;
-        hb.height /= 16.0f;
-    }
     for(i = 0; i < MAX_ENTITY_COUNT; i++){
         struct entity *e2 = &list[i];
         if(e2->type < ENTITY_PLAYER)

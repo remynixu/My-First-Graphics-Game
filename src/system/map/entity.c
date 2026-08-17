@@ -26,11 +26,11 @@ const static struct{
         (float)50,
         {
             (float)-9.5f,
-            (float)-7
+            (float)-17
         },
         {
             (float)-18,
-            (float)-8
+            (float)-20
         }
     }
 };
@@ -138,8 +138,11 @@ void draw_entities(const struct entity *const list){
     struct entity el[MAX_ENTITY_COUNT];
     memcpy(el, list, sizeof(*el) * MAX_ENTITY_COUNT);
     _sort(el);
-    for(i = 0; i < MAX_ENTITY_COUNT; i++)
+    for(i = 0; i < MAX_ENTITY_COUNT; i++){
+        if(el[i].type == ENTITY_NULL)
+            continue;
         draw_entity(&el[i]);
+    }
 }
 
 #include <stdio.h>
