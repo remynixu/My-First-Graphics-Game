@@ -27,8 +27,18 @@ int main(void){
     if(load_entity_textures() != 0)
         return -3;
     { /* Entity set-up */
-        setup_entity(engine_ctx.screen.width / 2, engine_ctx.screen.height / 2, ENTITY_PLAYER, &list[0]);
-        setup_entity(engine_ctx.screen.width / 2 + 30, engine_ctx.screen.height / 2 + 30, ENTITY_PLAYER, &list[1]);
+        struct entity hint;
+        {
+            hint.pos.x = engine_ctx.screen.width / 2;
+            hint.pos.y = engine_ctx.screen.height / 2;
+            hint.type = ENTITY_PLAYER;
+        }
+        setup_entity(&hint, &list[0]);
+        {
+            hint.pos.x += 30;
+            hint.pos.y += 30;
+        }
+        setup_entity(&hint, &list[1]);
     }
     if(parse_chunk("assets/data/chunk/test.chunk", &chunk) != 0)
         return -4;
@@ -42,8 +52,10 @@ int main(void){
         cam.zoom = 4.0f;
     }
     while(!WindowShouldClose()){
-        update_engine(&engine_ctx);
-        control_entity(&engine_ctx, &list[0]);
+        {
+            update_engine(&engine_ctx);
+            control_entity(&engine_ctx, &list[0]);
+        }
         cam.target = list[0].pos;
         BeginTextureMode(screen.target);
         {

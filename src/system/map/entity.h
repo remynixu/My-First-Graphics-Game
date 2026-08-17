@@ -4,6 +4,9 @@
 #include <raylib.h>
 
 enum entity_type{
+/* - From draw_entities()
+ * Special case, ENTITY_NULL doesn't render.
+ */
     ENTITY_NULL = 0,
 /*
  * - From collision.h
@@ -43,7 +46,7 @@ int load_entity_textures(void);
  * Basically sets up an entity, guarantees a valid entity :D
  */
 
-void setup_entity(const int x, const int y, const enum entity_type type, struct entity *const e);
+void setup_entity(const struct entity *const hint, struct entity *const e);
 
 /*
  * Draws an entity ._.

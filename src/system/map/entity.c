@@ -44,11 +44,11 @@ int load_entity_textures(void){
     return 0;
 }
 
-void setup_entity(const int x, const int y, const enum entity_type type, struct entity *const e){
-        e->pos.x = (float)x;
-        e->pos.y = (float)y;
-        e->type = type;
-        e->speed = _metadata_list[type].speed;
+void setup_entity(const struct entity *const hint, struct entity *const e){
+        e->pos.x = (float)hint->pos.x;
+        e->pos.y = (float)hint->pos.y;
+        e->type = hint->type;
+        e->speed = _metadata_list[hint->type].speed;
 }
 
 void draw_entity(const struct entity *const e){
