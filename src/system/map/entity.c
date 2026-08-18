@@ -8,9 +8,11 @@ Rectangle get_entity_hitbox(const struct entity *const e){
     int i = e->type;
     float width = _tex_arr[i].width * _metadata_list[i].scale;
     float height = _tex_arr[i].height * _metadata_list[i].scale;
-    float org_x = width / 2;
-    float org_y = height / 2;
+    if(i == ENTITY_PLAYER)
+        width /= 4;
     {
+        float org_x = width / 2;
+        float org_y = height / 2;
         hb.x = e->pos.x - org_x;
         hb.y = e->pos.y - org_y;
         hb.height = height;
@@ -61,6 +63,8 @@ void draw_entity(const struct entity *const e){
     int i = e->type;
     float width = _tex_arr[i].width;
     float height = _tex_arr[i].height;
+    if(i == ENTITY_PLAYER)
+        width /= 4;     /* Because it's a spritesheet. */
     {
         origin.x = (width * _metadata_list[i].scale) / 2;
         origin.y = (height * _metadata_list[i].scale) / 2;
@@ -69,6 +73,23 @@ void draw_entity(const struct entity *const e){
         src.x = src.y = 0.0f;
         src.height = height;
         src.width = width;
+    }
+    switch(e->direction){
+        case ENTITY_UP:{
+            src.x += width;
+            break;
+        }
+        case ENTITY_LEFT:{
+            src.x += width * 2;
+            break;
+        }
+        case ENTITY_RIGHT:{
+            src.x += width * 3;
+            break;
+        }
+        case ENTITY_DOWN:
+        default:
+        break;
     }
     {
         dst.x = e->pos.x;

@@ -3,7 +3,7 @@
 
 static void _move_ent(struct engine_ctx *ctx, struct entity *e){
     if(ctx->heldkey_flags & KEYCODE_S){
-        e->direction = ENTITY_UP;
+        e->direction = ENTITY_DOWN;
         e->pos.y += (float)e->speed * ctx->delta_time;
         if(check_etoc_collision(e, ctx->curr_chunk))
             e->pos.y -= (float)e->speed * ctx->delta_time;
@@ -11,7 +11,7 @@ static void _move_ent(struct engine_ctx *ctx, struct entity *e){
             e->pos.y -= (float)e->speed * ctx->delta_time;
     }
     if(ctx->heldkey_flags & KEYCODE_W){
-        e->direction = ENTITY_DOWN;
+        e->direction = ENTITY_UP;
         e->pos.y -= (float)e->speed * ctx->delta_time;
         if(check_etoc_collision(e, ctx->curr_chunk))
             e->pos.y += (float)e->speed * ctx->delta_time;
