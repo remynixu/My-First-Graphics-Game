@@ -37,6 +37,7 @@ int main(void){
         {
             hint.pos.x += 30;
             hint.pos.y += 30;
+            hint.type = ENTITY_ROCK;
         }
         setup_entity(&hint, &list[1]);
     }
@@ -64,6 +65,8 @@ int main(void){
             {
                 draw_chunk(&chunk);
                 draw_entities(list);
+                draw_entity_hitbox(&list[0]);
+                draw_entity_hitbox(&list[1]);
             }
             EndMode2D();
         }

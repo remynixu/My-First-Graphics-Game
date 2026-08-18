@@ -13,6 +13,7 @@
 enum tile_type{
     TILE_NULL   = 0,
     TILE_STONE,
+    TILE_GRASS,
 /*
  * - From collision.h
  * Past this point, the tiles are collidable.
@@ -40,7 +41,7 @@ Rectangle get_tile_hitbox(const struct tile *const t);
 
 int load_tile_textures(void);
 
-void draw_tile(const struct tile *const t);
+void draw_tile(const struct tile *const t, const int seed);
 void free_tile_textures(void);
 
 #endif /* TILE_H */

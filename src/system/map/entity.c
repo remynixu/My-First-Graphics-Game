@@ -25,6 +25,10 @@ Rectangle get_entity_hitbox(const struct entity *const e){
     return hb;
 }
 
+void draw_entity_hitbox(const struct entity *const e){
+    DrawRectangleLinesEx(get_entity_hitbox(e), ENTITY_HITBOX_THICKNESS, ENTITY_HITBOX_COLOR);
+}
+
 static int _load_tex(const int i){
     _tex_arr[i] = LoadTexture(_metadata_list[i].filepath);
     if(!IsTextureValid(_tex_arr[i])){

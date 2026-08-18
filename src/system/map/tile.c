@@ -12,6 +12,7 @@ Rectangle get_tile_hitbox(const struct tile *const t){
 static const char tex_pathlist[MAX_TILE_TYPE][64] = {
     "assets/textures/tile/null.png",
     "assets/textures/tile/stone.png",
+    "assets/textures/tile/grass.png",
     "assets/textures/tile/placeholder.png"
 };
 
@@ -38,12 +39,20 @@ int load_tile_textures(void){
     return 0;
 }
 
-void draw_tile(const struct tile *const t){
+static int _rand(const int seed){
+    return (unsigned int)((seed * 1103515245 + 12345)/65536) % 32768;
+}
+
+void draw_tile(const struct tile *const t, const int seed){
     Vector2 origin = {0};
     Rectangle src, dst;
     src.x = src.y = 0.0f;
     src.height = dst.height = (float)TILE_PIXEL_HEIGHT;
     src.width = dst.width = (float)TILE_PIXEL_WIDTH;
+    if(t->type == TILE_GRASS){
+        if(_rand(seed) % 2)
+        src.x += TILE_PIXEL_WIDTH;
+    }
     dst.x = (float)t->x;
     dst.y = (float)t->y;
     DrawTexturePro(tex_list[t->type], src, dst, origin, 0.0f, WHITE);
