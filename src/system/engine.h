@@ -4,7 +4,7 @@
 #include <raylib.h>
 
 #include "map/chunk.h"
-#include "map/entity.h"
+#include "map/primitive/entity.h"
 
 enum heldkey_flags{
     KEYCODE_W = (1 << 0),

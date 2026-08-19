@@ -17,6 +17,8 @@ int check_etoc_collision(struct entity *e, struct chunk *chunk){
 
 #include <string.h>
 
+#include "map/entity_list.h"
+
 int check_etoe_collision(struct entity *e, struct entity *list){
     Rectangle hb = get_entity_hitbox(e);
     int i;

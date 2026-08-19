@@ -46,6 +46,11 @@ int load_tile_textures(void);
  */
 
 Rectangle prepare_tile(const struct tile *const t, const int seed);
+
+/*
+ * Draws a tile
+ */
+
 void draw_tile(const struct tile *const t, Rectangle src_hint);
 
 void free_tile_textures(void);

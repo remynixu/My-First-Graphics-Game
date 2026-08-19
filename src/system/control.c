@@ -2,39 +2,49 @@
 #include "collision.h"
 
 static void _move_ent(struct engine_ctx *ctx, struct entity *e){
-    float speed = (float)e->speed * ctx->delta_time;
-    if(ctx->heldkey_flags & KEYCODE_A){
+    float x_speed = (float)e->speed * ctx->delta_time;
+    float y_speed = x_speed * ((float)TILE_PIXEL_HEIGHT / (float)TILE_PIXEL_WIDTH);
+    unsigned char flags = ctx->heldkey_flags;
+    Vector2 next_pos = {0};
+    if(flags & KEYCODE_A){
         e->direction = ENTITY_LEFT;
-        e->pos.x -= speed;
-        if(check_etoc_collision(e, ctx->game.curr_chunk))
-            e->pos.x += speed;
-        if(check_etoe_collision(e, ctx->game.entity_list))
-            e->pos.x += speed;
+        next_pos.x -= x_speed;
     }
-    if(ctx->heldkey_flags & KEYCODE_D){
+    if(flags & KEYCODE_D){
         e->direction = ENTITY_RIGHT;
-        e->pos.x += speed;
-        if(check_etoc_collision(e, ctx->game.curr_chunk))
-            e->pos.x -= speed;
-        if(check_etoe_collision(e, ctx->game.entity_list))
-            e->pos.x -= speed;
+        next_pos.x += x_speed;
     }
-    speed *= (float)TILE_PIXEL_HEIGHT / (float)TILE_PIXEL_WIDTH;
-    if(ctx->heldkey_flags & KEYCODE_S){
-        e->direction = ENTITY_DOWN;
-        e->pos.y += speed;
-        if(check_etoc_collision(e, ctx->game.curr_chunk))
-            e->pos.y -= speed;
-        if(check_etoe_collision(e, ctx->game.entity_list))
-            e->pos.y -= speed;
-    }
-    if(ctx->heldkey_flags & KEYCODE_W){
+    if(flags & KEYCODE_W){
         e->direction = ENTITY_UP;
-        e->pos.y -= speed;
+        next_pos.y -= y_speed;
+    }
+    if(flags & KEYCODE_S){
+        e->direction = ENTITY_DOWN;
+        next_pos.y += y_speed;
+    }
+    /* INCOMPLETE SUPPORT!!!
+    if(flags & (KEYCODE_W | KEYCODE_D))
+        e->direction = ENTITY_UPRIGHT;
+    if(flags & (KEYCODE_S | KEYCODE_D))
+        e->direction = ENTITY_DOWNRIGHT;
+    if(flags & (KEYCODE_W | KEYCODE_A))
+        e->direction = ENTITY_UPLEFT;
+    if(flags & (KEYCODE_W | KEYCODE_A))
+        e->direction = ENTITY_UPLEFT;
+    */
+    {
+        e->pos.x += next_pos.x;
         if(check_etoc_collision(e, ctx->game.curr_chunk))
-            e->pos.y += speed;
+            e->pos.x -= next_pos.x;
         if(check_etoe_collision(e, ctx->game.entity_list))
-            e->pos.y += speed;
+            e->pos.x -= next_pos.x;
+    }
+    {
+        e->pos.y += next_pos.y;
+        if(check_etoc_collision(e, ctx->game.curr_chunk))
+            e->pos.y -= next_pos.y;
+        if(check_etoe_collision(e, ctx->game.entity_list))
+            e->pos.y -= next_pos.y;
     }
 }
 

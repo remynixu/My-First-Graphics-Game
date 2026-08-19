@@ -1,7 +1,7 @@
 #ifndef CHUNK_H
 #define CHUNK_H
 
-#include "tile.h"
+#include "primitive/tile.h"
 
 /*
  * MAX_CHUNK_WIDTH and MAX_CHUNK_HEIGHT defines the limit of tiles that is

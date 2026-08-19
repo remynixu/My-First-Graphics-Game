@@ -25,7 +25,7 @@ static void _update_heldkey_flags(struct engine_ctx *ctx){
         ctx->heldkey_flags |= KEYCODE_R;
 }
 
-#include "map/animation.h"
+#include "map/primitive/animation.h"
 
 void update_engine(struct engine_ctx *ctx){
     ctx->delta_time = GetFrameTime();

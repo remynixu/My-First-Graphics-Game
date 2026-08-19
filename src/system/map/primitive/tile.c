@@ -89,7 +89,7 @@ Rectangle prepare_tile(const struct tile *const t, const int seed){
         }
         break;
         case TILE_ANIMATED:{
-            hint.y += TILE_PIXEL_HEIGHT * get_animation_frame(4);
+            hint.y += TILE_PIXEL_HEIGHT * get_animation_frame(4, 1);
         }
         break;
         case TILE_IDLE:

@@ -1,9 +1,9 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
-#include "engine.h"
+#include "map/primitive/entity.h"
 
-#include "map/entity.h"
+#include "engine.h"
 
 void control_entity(struct engine_ctx *ctx, struct entity *e);
 

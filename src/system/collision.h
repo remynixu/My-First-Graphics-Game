@@ -1,7 +1,7 @@
 #ifndef COLLISION_H
 #define COLLISION_H
 
-#include "map/entity.h"
+#include "map/primitive/entity.h"
 #include "map/chunk.h"
 
 int check_etoc_collision(struct entity *e, struct chunk *chunk);
