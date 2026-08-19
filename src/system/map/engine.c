@@ -26,7 +26,11 @@ static void _update_heldkey_flags(struct engine_ctx *ctx){
 }
 
 void update_engine(struct engine_ctx *ctx){
-    ctx->delta_time = GetFrameTime();
+    ctx->time.delta = GetFrameTime();
+    ctx->time.animation += ctx->time.delta;
+    if(ctx->time.animation >= 1.0f)
+        ctx->time.animation = 0;
+    tile_animation_time = ctx->time.animation;
     _update_heldkey_flags(ctx);
 }
 

@@ -39,7 +39,10 @@ int parse_chunk(const char *const filename, struct chunk *const chunk){
 void draw_chunk(const struct chunk *const chunk){
     int c, r;
     for(c = 0; c < MAX_CHUNK_HEIGHT; c++){
-        for(r = 0; r < MAX_CHUNK_WIDTH; r++)
-            draw_tile(&chunk->tiles[c][r], r + c * MAX_CHUNK_WIDTH);
+        for(r = 0; r < MAX_CHUNK_WIDTH; r++){
+            Rectangle hint;
+            hint = prepare_tile(&chunk->tiles[c][r], r + c * MAX_CHUNK_WIDTH);
+            draw_tile(&chunk->tiles[c][r], hint);
+        }
     }
 }

@@ -1,8 +1,8 @@
 #include "system/map/entity.h"
 #include "system/map/chunk.h"
+#include "system/map/engine.h"
 
 #include "system/control.h"
-#include "system/engine.h"
 #include "system/screen.h"
 
 int main(void){
@@ -44,8 +44,8 @@ int main(void){
     if(parse_chunk("assets/data/chunk/test.chunk", &chunk) != 0)
         return -4;
     { /* Game context set-up */
-        engine_ctx.curr_chunk = &chunk;
-        engine_ctx.entity_list = list;
+        engine_ctx.game.curr_chunk = &chunk;
+        engine_ctx.game.entity_list = list;
     }
     { /* Camera set-up */
         cam.offset.x = engine_ctx.screen.width / 2;
