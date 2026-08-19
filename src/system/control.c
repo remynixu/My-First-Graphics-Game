@@ -2,7 +2,7 @@
 #include "collision.h"
 
 static void _move_ent(struct engine_ctx *ctx, struct entity *e){
-    float speed = (float)e->speed * ctx->time.delta;
+    float speed = (float)e->speed * ctx->delta_time;
     if(ctx->heldkey_flags & KEYCODE_A){
         e->direction = ENTITY_LEFT;
         e->pos.x -= speed;

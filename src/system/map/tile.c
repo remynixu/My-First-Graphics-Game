@@ -49,8 +49,6 @@ enum tile_mode{
     TILE_ANIMATED
 };
 
-float tile_animation_time = 0.0f;
-
 /*
  * Expected spritesheet:
  *
@@ -59,6 +57,8 @@ float tile_animation_time = 0.0f;
  * |
  * V
  */
+
+#include "animation.h"
 
 Rectangle prepare_tile(const struct tile *const t, const int seed){
     enum tile_mode mode;
@@ -89,11 +89,7 @@ Rectangle prepare_tile(const struct tile *const t, const int seed){
         }
         break;
         case TILE_ANIMATED:{
-            int _frame_index = 0;
-            if(tile_animation_time > 0.25) _frame_index++;
-            if(tile_animation_time > 0.50) _frame_index++;
-            if(tile_animation_time > 0.75) _frame_index++;
-            hint.y += TILE_PIXEL_HEIGHT * _frame_index;
+            hint.y += TILE_PIXEL_HEIGHT * get_animation_frame(4);
         }
         break;
         case TILE_IDLE:

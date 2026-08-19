@@ -3,9 +3,8 @@
 
 #include <raylib.h>
 
-#include "tile.h"
-#include "chunk.h"
-#include "entity.h"
+#include "map/chunk.h"
+#include "map/entity.h"
 
 enum heldkey_flags{
     KEYCODE_W = (1 << 0),
@@ -19,20 +18,17 @@ enum heldkey_flags{
 };
 
 struct engine_ctx{
-    int target_fps;
-    unsigned char heldkey_flags;
-    struct{
-        int width;
-        int height;
-    }screen;
-    struct{
-        float delta;
-        float animation;
-    }time;
     struct{
         struct chunk *curr_chunk;
         struct entity *entity_list;
     }game;
+    unsigned char heldkey_flags;
+    float delta_time;   /* Auto-initialized */
+    int target_fps;
+    struct{
+        int width;
+        int height;
+    }screen;
 };
 
 void start_engine(struct engine_ctx *ctx, const char *title);

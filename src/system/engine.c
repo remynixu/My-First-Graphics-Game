@@ -25,12 +25,11 @@ static void _update_heldkey_flags(struct engine_ctx *ctx){
         ctx->heldkey_flags |= KEYCODE_R;
 }
 
+#include "map/animation.h"
+
 void update_engine(struct engine_ctx *ctx){
-    ctx->time.delta = GetFrameTime();
-    ctx->time.animation += ctx->time.delta;
-    if(ctx->time.animation >= 1.0f)
-        ctx->time.animation = 0;
-    tile_animation_time = ctx->time.animation;
+    ctx->delta_time = GetFrameTime();
+    update_animation_time(ctx->delta_time);
     _update_heldkey_flags(ctx);
 }
 

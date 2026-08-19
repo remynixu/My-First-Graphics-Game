@@ -42,16 +42,6 @@ Rectangle get_tile_hitbox(const struct tile *const t);
 int load_tile_textures(void);
 
 /*
- * The current implementation needs this file to have external help :<
- *
- * This variable expects:
- * - To be incremented with the value of delta time.
- * - Values greater than 0.0f, and less than or equal to 1.0f.
- */
-
-extern float tile_animation_time;
-
-/*
  * Returns a src_hint for draw_tile()! :D
  */
 
