@@ -1,6 +1,8 @@
 #include "control.h"
 #include "collision.h"
 
+#define DIAGONAL_MULTIPLIER 0.75f
+
 static void _move_ent(struct engine_ctx *ctx, struct entity *e){
     float x_speed = (float)e->speed * ctx->delta_time;
     float y_speed = x_speed * ((float)TILE_PIXEL_HEIGHT / (float)TILE_PIXEL_WIDTH);
@@ -21,6 +23,10 @@ static void _move_ent(struct engine_ctx *ctx, struct entity *e){
     if(flags & KEYCODE_S){
         e->direction = ENTITY_DOWN;
         next_pos.y += y_speed;
+    }
+    if(next_pos.x != 0.0f && next_pos.y != 0.0f){
+        next_pos.x *= DIAGONAL_MULTIPLIER;
+        next_pos.y *= DIAGONAL_MULTIPLIER;
     }
     /* INCOMPLETE SUPPORT!!!
     if(flags & (KEYCODE_W | KEYCODE_D))

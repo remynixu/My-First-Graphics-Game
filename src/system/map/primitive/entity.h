@@ -36,6 +36,9 @@ enum entity_direction{
     ENTITY_DOWN,
     ENTITY_LEFT,
     ENTITY_RIGHT,
+/*
+ * Currently unsupported stuff down here :<
+ */
     ENTITY_UPLEFT,
     ENTITY_UPRIGHT,
     ENTITY_DOWNLEFT,
