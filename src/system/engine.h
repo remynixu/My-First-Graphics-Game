@@ -1,38 +1,35 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-#include <raylib.h>
+#include "core/renderer.h"
 
-#include "map/chunk.h"
-#include "map/primitive/entity.h"
-
-enum heldkey_flags{
-    KEYCODE_W = (1 << 0),
-    KEYCODE_S = (1 << 1),
-    KEYCODE_A = (1 << 2),
-    KEYCODE_D = (1 << 3),
-    KEYCODE_SPC = (1 << 4),
-    KEYCODE_Q = (1 << 5),
-    KEYCODE_F = (1 << 6),
-    KEYCODE_R = (1 << 7)
+enum engine_state{
+    ENGINE_STATE_QUIT = 0,
+    ENGINE_STATE_RUNNING
 };
 
 struct engine_ctx{
-    struct{
-        struct chunk *curr_chunk;
-        struct entity *entity_list;
-    }game;
-    unsigned char heldkey_flags;
-    float delta_time;   /* Auto-initialized */
-    int target_fps;
-    struct{
-        int width;
-        int height;
-    }screen;
+    float delta_time;
+    enum engine_state state;
+    struct renderer_buffer renderer_buf;
+    struct screen_info screen;
 };
 
-void start_engine(struct engine_ctx *ctx, const char *title);
-void update_engine(struct engine_ctx *ctx);
-void end_engine(void);
+struct engine_hint{
+    struct screen_info screen;
+    int target_fps;
+};
+
+/* Begin the engine, use only once or else :< */
+int engine_init(struct engine_ctx *ctx, struct engine_hint *hint);
+
+/* Updates the engine with the recent events. */
+void engine_update(struct engine_ctx *ctx);
+
+/* Makes the engine do rendering. */
+void engine_render(struct engine_ctx *ctx);
+
+/* Properly closes and cleans up the engine. */
+void engine_close(void);
 
 #endif /* ENGINE_H */

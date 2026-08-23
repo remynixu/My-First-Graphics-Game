@@ -1,38 +1,36 @@
 #include "engine.h"
 
-void start_engine(struct engine_ctx *ctx, const char *title){
-    InitWindow(ctx->screen.width, ctx->screen.height, title);
-    SetTargetFPS(ctx->target_fps);
+#include "core/renderer.h"
+#include "core/tile.h"
+
+#include <raylib.h>
+
+int engine_init(struct engine_ctx *ctx, struct engine_hint *hint){
+    if(renderer_init(&hint->screen))
+        return -1;
+    renderer_clean(&ctx->renderer_buf);
+    if(tile_init())
+        return -2;
+    {
+        ctx->state = ENGINE_STATE_RUNNING;
+        ctx->screen = hint->screen;
+    }
+    return 0;
 }
 
-static void _update_heldkey_flags(struct engine_ctx *ctx){
-    ctx->heldkey_flags = 0;
-    if(IsKeyDown(KEY_W))
-        ctx->heldkey_flags |= KEYCODE_W;
-    if(IsKeyDown(KEY_S))
-        ctx->heldkey_flags |= KEYCODE_S;
-    if(IsKeyDown(KEY_A))
-        ctx->heldkey_flags |= KEYCODE_A;
-    if(IsKeyDown(KEY_D))
-        ctx->heldkey_flags |= KEYCODE_D;
-    if(IsKeyDown(KEY_SPACE))
-        ctx->heldkey_flags |= KEYCODE_SPC;
-    if(IsKeyDown(KEY_Q))
-        ctx->heldkey_flags |= KEYCODE_Q;
-    if(IsKeyDown(KEY_F))
-        ctx->heldkey_flags |= KEYCODE_F;
-    if(IsKeyDown(KEY_R))
-        ctx->heldkey_flags |= KEYCODE_R;
-}
-
-#include "map/primitive/animation.h"
-
-void update_engine(struct engine_ctx *ctx){
+void engine_update(struct engine_ctx *ctx){
+    if(WindowShouldClose()){
+        ctx->state = ENGINE_STATE_QUIT;
+        return;
+    }
     ctx->delta_time = GetFrameTime();
-    update_animation_time(ctx->delta_time);
-    _update_heldkey_flags(ctx);
 }
 
-void end_engine(void){
-    CloseWindow();
+void engine_render(struct engine_ctx *ctx){
+    renderer_flush(&ctx->renderer_buf, &ctx->screen);
+}
+
+void engine_close(void){
+    renderer_quit();
+    tile_quit();
 }
