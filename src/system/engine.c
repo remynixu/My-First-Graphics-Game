@@ -27,6 +27,18 @@ void engine_update(struct engine_ctx *ctx){
 }
 
 void engine_render(struct engine_ctx *ctx){
+    renderer_command cmd;
+    struct tile t;
+    { /* tile */
+        t.state = TILE_NORMAL;
+        t.type = TILE_NULL;
+        t.x = ctx->screen.width / 2;
+        t.y = ctx->screen.height / 2;
+    }
+    { /* cmd */
+        cmd = tile_gettex(&t);
+    }
+    renderer_push(&ctx->renderer_buf, &cmd);
     renderer_flush(&ctx->renderer_buf, &ctx->screen);
 }
 

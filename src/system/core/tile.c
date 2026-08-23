@@ -32,6 +32,22 @@ int tile_init(void){
 
 struct texture_modifier _getmod(struct tile *t){
     struct texture_modifier mod = {0};
+    {
+        { /* texture source */
+            mod.src.height = TILE_MAXHEIGHT;
+            mod.src.width = TILE_MAXWIDTH;
+            mod.src.x = mod.src.y = 0;
+        }
+        { /* screen destination */
+            mod.dst.height = TILE_MAXHEIGHT;
+            mod.dst.width = TILE_MAXWIDTH;
+            mod.dst.x = t->x;
+            mod.dst.y = t->y;
+        }
+        { /* texture origin/offset */
+            mod.org.x = mod.org.y = 0;
+        }
+    }
     return mod;
 }
 
