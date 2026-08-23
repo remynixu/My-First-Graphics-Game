@@ -4,7 +4,7 @@
 #include "types.h"
 
 /* Texture that can be rendered. */
-struct texture{
+struct texture_info{
     unsigned int id;
     int width;
     int height;
@@ -19,11 +19,18 @@ struct texture_modifier{
     struct vector2 org;
 };
 
+/* Full texture info. */
+struct texture{
+    struct texture_info info;
+    struct texture_modifier mod;
+};
+
 /* Loads the specified image (PNG). */
-int tex_load(struct texture *tex, const char *image_path);
+int texinfo_load(struct texture_info *info, const char *image_path);
 
-void tex_draw(struct texture *tex, struct texture_modifier *mod);
+void tex_draw(struct texture *tex);
 
-void tex_unload(struct texture *tex);
+/* Unloads a texture from memory. */
+void texinfo_unload(struct texture_info *info);
 
 #endif /* TEXTURE_H */

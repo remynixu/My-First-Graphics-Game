@@ -8,7 +8,7 @@
 int engine_init(struct engine_ctx *ctx, struct engine_hint *hint){
     if(renderer_init(&hint->screen))
         return -1;
-    renderer_clean(&ctx->renderer_ctx);
+    renderer_clean(&ctx->renderer_buf);
     if(tile_init())
         return -2;
     {
@@ -27,7 +27,7 @@ void engine_update(struct engine_ctx *ctx){
 }
 
 void engine_render(struct engine_ctx *ctx){
-    renderer_flush(&ctx->renderer_ctx, &ctx->screen);
+    renderer_flush(&ctx->renderer_buf, &ctx->screen);
 }
 
 void engine_close(void){

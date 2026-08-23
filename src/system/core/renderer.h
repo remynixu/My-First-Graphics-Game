@@ -14,7 +14,6 @@
 struct renderer_command{
     unsigned int x;
     unsigned int y;
-    struct texture_modifier *mod;
     struct texture *tex;
 };
 

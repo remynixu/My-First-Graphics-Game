@@ -11,7 +11,7 @@ enum engine_state{
 struct engine_ctx{
     float delta_time;
     enum engine_state state;
-    struct renderer_buffer renderer_ctx;
+    struct renderer_buffer renderer_buf;
     struct screen_info screen;
 };
 

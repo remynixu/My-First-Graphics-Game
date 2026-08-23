@@ -37,7 +37,7 @@ static void _sort(struct renderer_buffer *buf){
 }
 
 static void _render(struct renderer_command *cmd){
-    tex_draw(cmd->tex, cmd->mod);
+    tex_draw(cmd->tex);
 }
 
 static void _clean(struct renderer_buffer *buf){

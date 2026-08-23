@@ -18,11 +18,17 @@ enum tile_type{
     MAX_TILE_TYPE
 };
 
+enum tile_state{
+    TILE_NORMAL,
+    TILE_PAUSED
+};
+
 /*
  * Pixel-sized tile, doesn't expect to be scaled.
  */
 struct tile{
     enum tile_type type;
+    enum tile_state state;
     int x;
     int y;
 };
@@ -35,6 +41,15 @@ struct tile{
  * - 1 = Fallback texture fail.
  */
 int tile_init(void);
+
+/* Max tile width. */
+#define TILE_MAXWIDTH   16
+
+/* Max tile height. */
+#define TILE_MAXHEIGHT  12
+
+/* Gives a proper texture for a corresponding tile. */
+struct texture tile_gettex(struct tile *t);
 
 /* Free loaded tiles from memory. */
 void tile_quit(void);
