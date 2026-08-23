@@ -20,8 +20,10 @@ struct texture_modifier{
 };
 
 /* Loads the specified image (PNG). */
-struct texture tex_load(const char *image_path);
+int tex_load(struct texture *tex, const char *image_path);
 
 void tex_draw(struct texture *tex, struct texture_modifier *mod);
+
+void tex_unload(struct texture *tex);
 
 #endif /* TEXTURE_H */

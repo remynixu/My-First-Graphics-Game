@@ -14,8 +14,14 @@ static struct texture _t2dtotex(Texture2D t2d){
     return tex;
 }
 
-struct texture tex_load(const char *file_path){
-    return _t2dtotex(LoadTexture(file_path));
+int tex_load(struct texture *tex, const char *image_path){
+    Texture2D t2d = LoadTexture(image_path);
+    if(!IsTextureValid(t2d)){
+        UnloadTexture(t2d);
+        return -1;
+    }
+    *tex = _t2dtotex(t2d);
+    return 0;
 }
 
 static Texture2D _tot2d(struct texture tex){
@@ -52,4 +58,8 @@ static Vector2 _tovec2(int x, int y){
 
 void tex_draw(struct texture *tex, struct texture_modifier *mod){
     DrawTexturePro(_tot2d(*tex), _torec(mod->src), _torec(mod->dst), _tovec2(mod->org.x, mod->org.y), 0.0f, WHITE);
+}
+
+void tex_unload(struct texture *tex){
+    UnloadTexture(_tot2d(*tex));
 }

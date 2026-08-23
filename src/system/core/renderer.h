@@ -14,8 +14,8 @@
 struct renderer_command{
     unsigned int x;
     unsigned int y;
-    struct texture_modifier mod;
-    struct texture tex;
+    struct texture_modifier *mod;
+    struct texture *tex;
 };
 
 #define MAX_RENDERER_COMMAND    1024
