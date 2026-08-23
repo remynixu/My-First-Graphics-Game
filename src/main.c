@@ -1,24 +1,25 @@
 #include "system/engine.h"
-#include <raylib.h>
+
+#include <string.h>
 
 int main(void){
     struct engine_ctx ctx;
     int errcode = 0;
     {
-        ctx.screen_height = 600;
-        ctx.screen_width = 800;
-        ctx.target_fps = 60;
-    }
-    errcode = engine_init(&ctx);
-    if(!errcode)
-        engine_perror(errcode);
-    for(;ctx.state == ENGINE_STATE_RUNNING; engine_update(&ctx)){
-        BeginDrawing();
+        struct engine_hint hint;
         {
-            ClearBackground(BLACK); 
-            DrawFPS(10, 10);
+            hint.screen.height = 600;
+            hint.screen.width = 800;
+            hint.target_fps = 60;
         }
-        EndDrawing();
+        memcpy(&hint.screen.title, "Inchoatus", 10);
+        errcode = engine_init(&ctx, &hint);
+    }
+    if(errcode)
+        return -1;
+    while(ctx.state == ENGINE_STATE_RUNNING){
+        engine_update(&ctx);
+        engine_render(&ctx);
     }
     engine_close();
     return 0;

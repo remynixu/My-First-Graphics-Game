@@ -1,7 +1,7 @@
 {
     "configurations": [
         {
-            "name": "Win64",
+            "name": "windows",
             "includePath": [
                 "${workspaceFolder}/**",
                 "C:/raylib/raylib/src"
