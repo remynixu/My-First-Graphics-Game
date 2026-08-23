@@ -20,7 +20,7 @@ int renderer_init(struct screen_info *scr);
 
 void renderer_clean(struct renderer_buffer *buf);
 void renderer_push(struct renderer_buffer *buf, renderer_command *cmd);
-void renderer_flush(struct renderer_buffer *buf, struct screen_info *scr);
+void renderer_flush(struct renderer_buffer *buf);
 
 void renderer_quit(void);
 

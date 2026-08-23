@@ -25,7 +25,7 @@ void renderer_push(struct renderer_buffer *buf, renderer_command *cmd){
 }
 
 static void _sort(struct renderer_buffer *buf){
-    int i;
+    unsigned int i;
     int j;
     renderer_command target;
     renderer_command *r = buf->pool;
@@ -41,11 +41,11 @@ static void _render(renderer_command *cmd){
     tex_draw(cmd);
 }
 
-void renderer_flush(struct renderer_buffer *buf, struct screen_info *scr){
+void renderer_flush(struct renderer_buffer *buf){
     _sort(buf);
     BeginTextureMode(screen);
     {
-        int i;
+        unsigned int i;
         ClearBackground(GRAY);
         for(i = 0; i < buf->count; i++)
             _render(&buf->pool[i]);

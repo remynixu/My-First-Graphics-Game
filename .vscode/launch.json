@@ -5,7 +5,7 @@
             "name": "Debug Raylib Game",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build_debug/Arundel.exe",
+            "program": "${workspaceFolder}/build_debug/Inchoatus.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

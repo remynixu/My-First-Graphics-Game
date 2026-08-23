@@ -1,32 +1,43 @@
 cmake_minimum_required(VERSION 3.15)
-project(Arundel C)
+project(Inchoatus C)
 
-file(GLOB_RECURSE GAME_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c")
-add_executable(Arundel ${GAME_SOURCES})
+set(CMAKE_C_STANDARD 90)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS OFF)
 
-if(NOT CMAKE_BUILD_TYPE STREQUAL "debug")
-    set_property(TARGET Arundel PROPERTY WIN32_EXECUTABLE TRUE)
+add_executable(Inchoatus ${GAME_SOURCES})
+
+add_subdirectory(src)
+
+if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set_property(TARGET Inchoatus PROPERTY WIN32_EXECUTABLE TRUE)
 endif()
 
-set_target_properties(Arundel PROPERTIES
-    C_STANDARD 90
-    C_EXTENSIONS OFF
-)
+if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
+    target_compile_options(Inchoatus PRIVATE 
+        -pedantic 
+        -Werror 
+        -Wall 
+        -Wextra
+        -Wno-comment
+    )
+endif()
 
-target_compile_options(Arundel PRIVATE 
-    -std=c89 
-    -pedantic 
-    -Werror 
-    -Wall 
-    -Wno-comment
-    -Wno-c++-compat
-)
+# Replace this fallback path if you local Raylib installation is moved.
+set(RAYLIB_DIR "C:/raylib/raylib/src" CACHE PATH "Path to raylib source/build directory")
 
-target_include_directories(Arundel SYSTEM PRIVATE "C:/raylib/raylib/src")
+target_include_directories(Inchoatus SYSTEM PRIVATE "${RAYLIB_DIR}")
 
-target_link_libraries(Arundel PRIVATE 
-    "C:/raylib/raylib/src/libraylib.a"
-    opengl32 
-    gdi32 
-    winmm
-)
+# Platform-specific linking...
+if(WIN32)
+    target_link_libraries(Inchoatus PRIVATE 
+        "${RAYLIB_DIR}/libraylib.a"
+        opengl32 
+        gdi32 
+        winmm
+    )
+elseif(APPLE)
+    target_link_libraries(Inchoatus PRIVATE raylib "-framework OpenGL" "-framework Cocoa" "-framework IOKit" "-framework CoreVideo")
+else()
+    target_link_libraries(Inchoatus PRIVATE raylib GL m pthread dl rt X11)
+endif()

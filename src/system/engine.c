@@ -39,7 +39,7 @@ void engine_render(struct engine_ctx *ctx){
         cmd = tile_gettex(&t);
     }
     renderer_push(&ctx->renderer_buf, &cmd);
-    renderer_flush(&ctx->renderer_buf, &ctx->screen);
+    renderer_flush(&ctx->renderer_buf);
 }
 
 void engine_close(void){
