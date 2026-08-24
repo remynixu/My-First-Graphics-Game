@@ -1,19 +1,23 @@
 #include "engine.h"
 
 #include "core/renderer.h"
+#include "core/screen.h"
 #include "core/tile.h"
 
 #include <raylib.h>
 
 int engine_init(struct engine_ctx *ctx, struct engine_hint *hint){
-    if(renderer_init(&hint->screen))
+    if(screen_init(&ctx->main_screen, &hint->window))
         return -1;
-    renderer_clean(&ctx->renderer_buf);
     if(tile_init())
         return -2;
     {
+        renderer_clean(&ctx->renderer_buf);
+        SetTargetFPS(hint->target_fps);
+    }
+    {
         ctx->state = ENGINE_STATE_RUNNING;
-        ctx->screen = hint->screen;
+        ctx->window = hint->window;
     }
     return 0;
 }
@@ -32,17 +36,29 @@ void engine_render(struct engine_ctx *ctx){
     { /* tile */
         t.state = TILE_NORMAL;
         t.type = TILE_NULL;
-        t.x = ctx->screen.width / 2;
-        t.y = ctx->screen.height / 2;
+        t.x = ctx->window.width / 2;
+        t.y = ctx->window.height / 2;
     }
     { /* cmd */
         cmd = tile_gettex(&t);
     }
     renderer_push(&ctx->renderer_buf, &cmd);
-    renderer_flush(&ctx->renderer_buf);
+    screenmode_begin(&ctx->main_screen);
+    {
+        renderer_flush(&ctx->renderer_buf);
+    }
+    screenmode_end();
+    screen_update(&ctx->main_screen);
 }
 
-void engine_close(void){
-    renderer_quit();
+#include <stdio.h>
+
+void engine_perror(void){
+    perror(GetApplicationDirectory());
+}
+
+void engine_close(struct engine_ctx *ctx){
+    screen_quit(&ctx->main_screen);
+    window_quit();
     tile_quit();
 }

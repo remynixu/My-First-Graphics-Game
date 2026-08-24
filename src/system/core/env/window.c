@@ -2,10 +2,10 @@
 
 #include <raylib.h>
 
-int window_init(struct screen_info *scr){
+int window_init(struct window_info *info){
     if(!ChangeDirectory(GetApplicationDirectory()))
         return -1;
-    InitWindow(scr->width, scr->height, scr->title);
+    InitWindow(info->width, info->height, info->title);
     return 0;
 }
 

@@ -1,9 +1,15 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include "env.h"
+#define WINDOWTITLE_MAXSTRLEN   16
 
-int window_init(struct screen_info *scr);
+struct window_info{
+    unsigned int width;
+    unsigned int height;
+    char title[WINDOWTITLE_MAXSTRLEN];
+};
+
+int window_init(struct window_info *info);
 void window_quit(void);
 
 #endif /* WINDOW_H */

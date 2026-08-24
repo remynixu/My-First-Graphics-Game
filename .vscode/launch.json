@@ -8,7 +8,7 @@
             "program": "${workspaceFolder}/build_debug/Inchoatus.exe",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/build_debug",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",

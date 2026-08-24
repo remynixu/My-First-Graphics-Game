@@ -25,13 +25,13 @@ int tile_init(void){
     int i;
     for(i = 0; i < MAX_TILE_TYPE; i++){
         if(texinfo_load(&tex_infolist[i], _texfpath(i)))
-            return -i;
+            return -(i + 1);
     }
     return 0;
 }
 
-struct texture_modifier _getmod(struct tile *t){
-    struct texture_modifier mod = {0};
+static struct draw_modifier _getmod(struct tile *t){
+    struct draw_modifier mod = {0};
     {
         { /* texture source */
             mod.src.height = TILE_MAXHEIGHT;
@@ -53,7 +53,7 @@ struct texture_modifier _getmod(struct tile *t){
 
 struct texture tile_gettex(struct tile *t){
     struct texture_info info = tex_infolist[t->type];
-    struct texture_modifier mod = _getmod(t);
+    struct draw_modifier mod = _getmod(t);
     struct texture tex;
     {
         tex.info = info;

@@ -1,17 +1,15 @@
+#define _TYPES_CONVERTIONS
+#include "types.h"
+
+#define _TEXTURE_CONVERTIONS
 #include "texture.h"
 
 #include <raylib.h>
 
 static struct texture_info _t2d_to_texinfo(Texture2D t2d){
-    struct texture_info tex;
-    {
-        tex.id = t2d.id;
-        tex.width = t2d.width;
-        tex.height = t2d.height;
-        tex.mipmaps = t2d.mipmaps;
-        tex.format = t2d.format;
-    }
-    return tex;
+    struct texture_info texinfo;
+    impltex_to_texinfo(t2d, texinfo);
+    return texinfo;
 }
 
 int texinfo_load(struct texture_info *info, const char *image_path){
@@ -24,26 +22,15 @@ int texinfo_load(struct texture_info *info, const char *image_path){
     return 0;
 }
 
-static Texture2D _tot2d(struct texture_info info){
+static Texture2D _tot2d(struct texture_info texinfo){
     Texture2D t2d;
-    {
-        t2d.id = info.id;
-        t2d.width = info.width;
-        t2d.height = info.height;
-        t2d.mipmaps = info.mipmaps;
-        t2d.format = info.format;
-    }
+    impltex_to_texinfo(texinfo, t2d);
     return t2d;
 }
 
 static Rectangle _torec(struct rectangle r){
     Rectangle rec;
-    {
-        rec.height = r.height;
-        rec.width = r.width;
-        rec.x = r.x;
-        rec.y = r.y;
-    }
+    implrec_to_rec(r, rec);
     return rec;
 }
 

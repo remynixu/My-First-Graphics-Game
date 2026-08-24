@@ -8,19 +8,21 @@ int main(void){
     {
         struct engine_hint hint;
         {
-            hint.screen.height = 600;
-            hint.screen.width = 800;
+            hint.window.height = 600;
+            hint.window.width = 800;
             hint.target_fps = 60;
         }
-        memcpy(&hint.screen.title, "Inchoatus", 10);
+        memcpy(&hint.window.title, "Inchoatus", 10);
         errcode = engine_init(&ctx, &hint);
     }
-    if(errcode)
+    if(errcode){
+        engine_perror();
         return -1;
+    }
     while(ctx.state == ENGINE_STATE_RUNNING){
         engine_update(&ctx);
         engine_render(&ctx);
     }
-    engine_close();
+    engine_close(&ctx);
     return 0;
 }

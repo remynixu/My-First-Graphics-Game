@@ -2,6 +2,7 @@
 #define ENGINE_H
 
 #include "core/renderer.h"
+#include "core/screen.h"
 
 enum engine_state{
     ENGINE_STATE_QUIT = 0,
@@ -12,11 +13,12 @@ struct engine_ctx{
     float delta_time;
     enum engine_state state;
     struct renderer_buffer renderer_buf;
-    struct screen_info screen;
+    struct window_info window;
+    struct screen main_screen;
 };
 
 struct engine_hint{
-    struct screen_info screen;
+    struct window_info window;
     int target_fps;
 };
 
@@ -29,7 +31,10 @@ void engine_update(struct engine_ctx *ctx);
 /* Makes the engine do rendering. */
 void engine_render(struct engine_ctx *ctx);
 
+/* If something goes wrong... */
+void engine_perror(void);
+
 /* Properly closes and cleans up the engine. */
-void engine_close(void);
+void engine_close(struct engine_ctx *ctx);
 
 #endif /* ENGINE_H */

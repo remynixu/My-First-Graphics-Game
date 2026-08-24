@@ -24,7 +24,7 @@ if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
 endif()
 
 # Replace this fallback path if you local Raylib installation is moved.
-set(RAYLIB_DIR "C:/raylib/raylib/src" CACHE PATH "Path to raylib source/build directory")
+set(RAYLIB_DIR "C:/raylib/raylib/src" CACHE PATH "C:/raylib/raylib/src")
 
 target_include_directories(Inchoatus SYSTEM PRIVATE "${RAYLIB_DIR}")
 
