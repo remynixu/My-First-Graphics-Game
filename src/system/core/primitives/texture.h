@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-/* Texture that can be rendered. */
+/* A texture's information for rendering. */
 struct texture_info{
     unsigned int id;
     int width;
@@ -28,6 +28,7 @@ struct texture{
 /* Loads the specified image (PNG). */
 int texinfo_load(struct texture_info *info, const char *image_path);
 
+/* Draws a texture to screen (Needs a window, see window.h for more info). */
 void tex_draw(struct texture *tex);
 
 /* Unloads a texture from memory. */
