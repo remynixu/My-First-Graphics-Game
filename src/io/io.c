@@ -1,0 +1,1 @@
+volatile char io_active = 1;
