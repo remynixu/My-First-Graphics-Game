@@ -20,7 +20,7 @@ endif()
 # - Doesn't rely on standard libraries nor crt as it's just pure logic.
 
 set(ENGINE_NAME "engine_core")
-set(LINKER_SCRIPT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/engine_layout.ld")
+set(LINKER_SCRIPT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/layout.ld")
 
 add_library(${ENGINE_NAME} STATIC)
 
