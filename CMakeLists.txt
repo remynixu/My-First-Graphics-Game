@@ -6,13 +6,44 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
-# LTO
+set(ENGINE_NAME "engine_core")
+set(IO_NAME "io_interface")
+set(EXE_NAME "Inchoatus")
 
-include(CheckIPOSupported)
-check_ipo_supported(RESULT lto_supported OUTPUT error)
+# ============================================================================ #
+# FOR DEBUG/RELEASE
+# :<
 
-if(lto_supported)
-    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON)
+if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+
+    # Remove the annoying console
+    # NOTE: Currently only has Windows support
+
+    if(WIN32)
+        set_property(TARGET ${EXE_NAME} PROPERTY WIN32_EXECUTABLE TRUE)
+    endif()
+
+    # LTO (Link-Time Optimization)
+
+    include(CheckIPOSupported)
+    check_ipo_supported(RESULT lto_supported OUTPUT error)
+
+    if(lto_supported)
+        set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON)
+    endif()
+
+    # More optimizations?
+
+    add_compile_options(
+        -O2
+    )
+
+else()
+
+    add_compile_options(
+        -O0
+    )
+
 endif()
 
 # ============================================================================ #
@@ -50,16 +81,15 @@ embed_asset("${ASSETS_DIR}/textures/tile/null.png"        "tile_null.png.o")
 # FOR ENGINE
 # - Doesn't rely on standard libraries nor crt as it's just pure logic.
 
-set(ENGINE_NAME "engine_core")
-
 set(LINKER_SCRIPT_PATH_1 "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/layout.ld")
 set(LINKER_SCRIPT_PATH_2 "${CMAKE_CURRENT_SOURCE_DIR}/src/assets/layout.ld")
 
 add_library(${ENGINE_NAME} STATIC)
 
+add_subdirectory("src/engine")
+
 target_sources(${ENGINE_NAME}
     PRIVATE
-    src/engine/core.c
     ${ENGINE_ASSET_OBJECTS}
 )
 
@@ -67,11 +97,6 @@ target_compile_options(${ENGINE_NAME}
     PRIVATE
     -ffreestanding
 )
-
-# target_link_options(${ENGINE_NAME}
-#     PRIVATE
-#     -nostdlib
-# )
 
 target_link_options(${ENGINE_NAME}
     INTERFACE
@@ -83,15 +108,11 @@ target_link_options(${ENGINE_NAME}
 # FOR INPUT/OUTPUT
 # - Current windows implementation requires standard libaries and crt.
 
-set(IO_NAME "io_interface")
 set(RAYLIB_DIR "C:/raylib/raylib/src" CACHE PATH "C:/raylib/raylib/src")
 
 add_library(${IO_NAME} STATIC)
 
-target_sources(${IO_NAME}
-    PRIVATE
-    src/io/io.c
-)
+add_subdirectory("src/io")
 
 target_include_directories(${IO_NAME}
     SYSTEM PRIVATE
@@ -115,8 +136,6 @@ endif()
 # FOR EXECUTABLE
 # - Just combines the engine, entry point, and IO interface together.
 
-set(EXE_NAME "Inchoatus")
-
 add_executable(${EXE_NAME})
 
 target_sources(${EXE_NAME} PRIVATE src/main.c)
@@ -125,15 +144,6 @@ set_target_properties(${EXE_NAME} PROPERTIES
     LINK_DEPENDS
     "${LINKER_SCRIPT_PATH_1};${LINKER_SCRIPT_PATH_2}"
 )
-
-# Remove the annoying console
-# NOTE: Currently only has Windows support
-
-if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
-    if(WIN32)
-        set_property(TARGET ${EXE_NAME} PROPERTY WIN32_EXECUTABLE TRUE)
-    endif()
-endif()
 
 target_link_libraries(${EXE_NAME}
     PRIVATE
