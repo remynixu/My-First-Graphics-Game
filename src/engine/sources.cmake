@@ -1,0 +1,5 @@
+# Hi :3
+
+set(ENGINE_SOURCE_FILES
+    "${CMAKE_CURRENT_LIST_DIR}/core.c"
+)

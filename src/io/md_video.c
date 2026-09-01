@@ -66,19 +66,19 @@ RODATA struct{
     Rectangle dest;
     Vector2 origin;
 }video_size = {
-    {
+    {   /* our framebuffer's size */
         0,
         0,
         MI_PIXEL_BUFFER_WIDTH,
         MI_PIXEL_BUFFER_HEIGHT
     },
-    {
+    {   /* the platform's framebuffer size */
         0,
         0,
         MD_SCREEN_WIDTH,
         MD_SCREEN_HEIGHT
     },
-    {
+    {   /* we have offsets apparently... ._. */
         0,
         0
     }

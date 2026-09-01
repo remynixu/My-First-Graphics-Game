@@ -3,7 +3,7 @@
 
 typedef unsigned char byte;
 
-/* Not a complete guarantee, just looks fancy :> */
+/* fancy :> */
 #define RODATA  static const
 
 /*

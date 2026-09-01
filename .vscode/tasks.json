@@ -42,6 +42,8 @@
                 "1. CMake Configure (Debug)"
             ]
         },
+
+        /*
         {
             "label": "2.1 Copy Assets (Debug)",
             "type": "shell",
@@ -58,6 +60,7 @@
                 "panel": "shared"
             }
         },
+        */
 
         /* RELEASE */
         {
@@ -100,6 +103,24 @@
                 "1. CMake Configure (Release)"
             ]
         },
+        {
+            "label": "3. Package Playable Zip",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-Command",
+                "Compress-Archive -Path 'build_release/Inchoatus.exe' -DestinationPath 'Inchoatus.zip' -Force"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true // Ctrl+Shift+B
+            },
+            "dependsOn": [
+                "2. CMake Build (Release)"
+            ]
+        }
+
+        /*
         {
             "label": "2.1 Copy Assets (Release)",
             "type": "shell",
@@ -156,5 +177,6 @@
                 "2.3 Move To Dir (Release)"
             ]
         }
+        */
     ]
 }
