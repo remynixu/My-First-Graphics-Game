@@ -1,16 +1,20 @@
 #include "md_video.h"
 
-#include <raylib.h>
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * The code below is expected to be different for different platforms.
+ */
 
 #define MD_SCREEN_WIDTH     800
 #define MD_SCREEN_HEIGHT    600
+
+#include <raylib.h>
 
 DATA struct{
     RenderTexture2D sized;
     Texture2D initial;
 }md_screen;
 
-int md_video_init(struct mi_video_ram *mi_vram){
+int md_video_init(struct md_video_ram *md_vram){
     {
         InitWindow(MD_SCREEN_WIDTH, MD_SCREEN_HEIGHT, " ");
         SetTargetFPS(60);
@@ -21,7 +25,7 @@ int md_video_init(struct mi_video_ram *mi_vram){
     {
         Image _hint;
         {
-            _hint.data = mi_vram->buffer;
+            _hint.data = md_vram->buffer;
             _hint.width = MI_PIXEL_BUFFER_WIDTH;
             _hint.height = MI_PIXEL_BUFFER_HEIGHT;
             _hint.mipmaps = 1;
@@ -48,24 +52,26 @@ const char *md_video_strerror(int errcode){
     return md_msg[-errcode];
 }
 
-void md_video_clear(struct mi_video_ram *mi_vram){
+void md_video_clear(struct md_video_ram *md_vram){
     int i;
-    char _null_pixel[MI_PIXEL_BYTE_SIZE];
+    char _null_pixel[MD_PIXEL_BYTE_SIZE];
+    struct pixel_config pxl_hint;
     {
-        _null_pixel[0] = 30;
-        _null_pixel[1] = 30;
-        _null_pixel[2] = 30;
-        _null_pixel[3] = 255;
+        pxl_hint.r = 30;
+        pxl_hint.g = 30;
+        pxl_hint.b = 30;
+        pxl_hint.a = 255;
     }
-    for(i = 0; i < MI_PIXEL_BUFFER_WIDTH * MI_PIXEL_BUFFER_HEIGHT; i++)
-        mi_pixel_copy(mi_vram->buffer + i * MI_PIXEL_BYTE_SIZE, _null_pixel);
+    md_pixel_set(_null_pixel, pxl_hint);
+    for(i = 0; i < MD_VIDEO_RAM_BUFFER_SIZE; i += MD_PIXEL_BYTE_SIZE)
+        md_pixel_copy(md_vram->buffer + i, _null_pixel);
 }
 
 RODATA struct{
     Rectangle source;
     Rectangle dest;
     Vector2 origin;
-}video_size = {
+}md_video_size = {
     {   /* our framebuffer's size */
         0,
         0,
@@ -84,10 +90,10 @@ RODATA struct{
     }
 };
 
-void md_video_from_vram(struct mi_video_ram *mi_vram){
+void md_video_from_vram(struct md_video_ram *md_vram){
     int x, y;
-    md_video_clear(mi_vram);
-    UpdateTexture(md_screen.initial, mi_vram);
+    md_video_clear(md_vram);
+    UpdateTexture(md_screen.initial, md_vram);
     BeginTextureMode(md_screen.sized);
     {
         DrawTexture(md_screen.initial, 0, 0, WHITE);
@@ -95,7 +101,20 @@ void md_video_from_vram(struct mi_video_ram *mi_vram){
     EndTextureMode();
     BeginDrawing();
     {
-        DrawTexturePro(md_screen.sized.texture, video_size.source, video_size.dest, video_size.origin, 0.0f, WHITE);
+        DrawTexturePro(
+            md_screen.sized.texture,
+            md_video_size.source,
+            md_video_size.dest,
+            md_video_size.origin,
+            0.0f,
+            WHITE
+        );
     }
     EndDrawing();
+}
+
+void md_video_quit(struct md_video_ram *md_vram){
+    UNUSED md_vram;
+    UnloadTexture(md_screen.initial);
+    UnloadRenderTexture(md_screen.sized);
 }

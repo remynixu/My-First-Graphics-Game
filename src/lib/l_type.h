@@ -1,6 +1,7 @@
 #ifndef L_TYPE_H
 #define L_TYPE_H
 
+/* A wrapper data type name for a byte. */
 typedef unsigned char byte;
 
 /* fancy :> */
@@ -10,7 +11,9 @@ typedef unsigned char byte;
  * If the data is uninitialized, it has a high chance of ending up on .bss;
  * if the data is initialized, it will probably end up on .data section.
  */
-
 #define DATA    static
+
+/* :< */
+#define UNUSED  (void)
 
 #endif /* L_TYPE_H */
