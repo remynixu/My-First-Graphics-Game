@@ -30,13 +30,6 @@ else()
 endif()
 
 # ============================================================================ #
-# FOR ASSETS
-# - Will be automated with Python soon! :D
-
-include("src/assets/assets.cmake")
-include("src/assets/convertions.cmake")
-
-# ============================================================================ #
 # FOR ENGINE
 # - Doesn't rely on standard libraries nor crt as it's just pure logic.
 
@@ -65,6 +58,3 @@ target_link_libraries(${EXE_NAME}
     ${ENGINE_NAME}
     ${IO_NAME}
 )
-
-include("src/linkers.cmake")
-include("src/link_depends.cmake")

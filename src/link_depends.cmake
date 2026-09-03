@@ -1,4 +1,0 @@
-set_target_properties(${EXE_NAME} PROPERTIES 
-    LINK_DEPENDS
-    "${LINKER_SCRIPT_PATH_1};${LINKER_SCRIPT_PATH_2}"
-)

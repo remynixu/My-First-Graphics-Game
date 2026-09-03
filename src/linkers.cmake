@@ -1,2 +1,0 @@
-set(LINKER_SCRIPT_PATH_1 "${CMAKE_CURRENT_LIST_DIR}/engine/layout.ld")
-set(LINKER_SCRIPT_PATH_2 "${CMAKE_CURRENT_LIST_DIR}/assets/layout.ld")
